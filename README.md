@@ -107,7 +107,7 @@ cd ../server && go run . -web ../web/dist
 1. Make an invite token: `cd server && go run . -invite`.
 2. Give the token to the person. They enter it on the register screen.
 
-To reset a password, run `go run . -passwd nick:newpassword`. Sessions stay
+To reset a password, run `cd server && go run . -passwd nick:newpassword`. Sessions stay
 valid, so nobody is signed out.
 
 ## Commands
