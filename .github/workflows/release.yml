@@ -100,9 +100,13 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with: { workspaces: desktop/src-tauri }
       - if: runner.os == 'Linux'
+        # Ubuntu's mirrors drop connections now and then; retry before failing a release.
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq libwebkit2gtk-4.1-dev build-essential file libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev patchelf
+          for i in 1 2 3; do
+            sudo apt-get -o Acquire::Retries=5 update -qq &&
+            sudo apt-get -o Acquire::Retries=5 install -y -qq libwebkit2gtk-4.1-dev build-essential file libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev patchelf && break
+            [ $i = 3 ] && exit 1; sleep 30
+          done
       - run: npm --prefix desktop ci --no-audit --no-fund
       # An unsigned or unnotarized build would still be offered to every install. Refuse instead.
       - name: Secrets present
