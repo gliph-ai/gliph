@@ -26,7 +26,7 @@ equivalent (a phone keyboard has no ↑ key), `—` means still to do.
 | Prose fences (markdown, text) wrap | ✓ | ✓ | ✓ |
 | ``` opens the Monaco code editor popup | ✓ | — | — |
 | IRC formatting codes, links, link cards | ✓ | partial | partial |
-| E2E encrypted channels (MLS) | ✓ | ✓ | ✓ |
+| E2E encrypted channels (a sealed AES-256-GCM key per channel epoch; MLS is the upgrade path) | ✓ | ✓ | ✓ |
 | New device approval: `/approve <code>` from a device you use, approval bar, "unapproved device" in the member list, `/devices` | ✓ | ✓ | ✓ |
 | Approve by QR: the new device shows its code as a QR code, a phone's camera opens `gliph://approve/<code>` and Gliph asks to confirm | shows the QR | ✓ | ✓ |
 | Channel history policy (`/create #name sealed`), shown in the title strip | ✓ | ✓ | ✓ |
