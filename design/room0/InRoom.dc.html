@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&display=swap">
+  <style>
+    body { margin: 0; font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+    a { color: #7ad9ff; } a:hover { color: #bfe9ff; }
+    .hudbtn { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; background: rgba(10, 18, 34, 0.72); border: 1px solid rgba(57, 198, 255, 0.3); border-radius: 50%; }
+    .logline { padding: 4px 10px; font-size: 14px; line-height: 1.4; color: #dfe9ff; background: rgba(10, 16, 30, 0.62); border-radius: 4px; }
+    .who { font-weight: 700; color: #9fc8ff; }
+    .self { font-weight: 700; color: #7ad9ff; }
+    .chip { margin-right: 6px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; font-weight: 800; background: linear-gradient(100deg, #39c6ff 0%, #9d8ef5 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  </style>
+</helmet>
+
+<div style="position: relative; width: 1120px; height: 720px; overflow: hidden; background: radial-gradient(120% 90% at 50% 8%, #16243f 0%, #0a1222 62%, #060c17 100%); border: 1px solid #364060;">
+
+  <!-- ── stand-in for the 3D view: floor, desks, two people ── -->
+  <div style="position: absolute; inset: 42% -12% -14%; background: repeating-linear-gradient(90deg, rgba(90,140,200,0.16) 0 1px, transparent 1px 78px), repeating-linear-gradient(0deg, rgba(90,140,200,0.16) 0 1px, transparent 1px 54px), linear-gradient(180deg, #101d33 0%, #0b1526 100%); transform: perspective(620px) rotateX(58deg); transform-origin: 50% 0;"></div>
+  <div style="position: absolute; left: 210px; top: 348px; width: 250px; height: 74px; background: linear-gradient(180deg, #22304d 0%, #16223a 100%); border-radius: 6px; box-shadow: 0 24px 40px rgba(0,0,0,0.45);"></div>
+  <div style="position: absolute; left: 620px; top: 330px; width: 230px; height: 66px; background: linear-gradient(180deg, #22304d 0%, #16223a 100%); border-radius: 6px; box-shadow: 0 24px 40px rgba(0,0,0,0.45);"></div>
+  <div style="position: absolute; left: 806px; top: 168px; width: 220px; height: 132px; background: rgba(191, 233, 255, 0.08); border: 1px solid rgba(57, 198, 255, 0.35); border-radius: 4px;"></div>
+  <div style="position: absolute; left: 822px; top: 184px; width: 120px; height: 8px; background: rgba(191,233,255,0.35);"></div>
+  <div style="position: absolute; left: 822px; top: 202px; width: 168px; height: 8px; background: rgba(191,233,255,0.22);"></div>
+  <div style="position: absolute; left: 822px; top: 220px; width: 92px; height: 8px; background: rgba(191,233,255,0.22);"></div>
+
+  <!-- avatar: waseem -->
+  <div style="position: absolute; left: 470px; top: 268px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+    <div style="padding: 2px 9px; font-size: 12px; font-weight: 700; color: #eaf5ff; background: rgba(10, 18, 34, 0.72); border: 1px solid rgba(57, 198, 255, 0.3); border-radius: 9999px;">waseem</div>
+    <div style="width: 42px; height: 96px; border-radius: 21px 21px 12px 12px; background: linear-gradient(180deg, #7ad9ff 0%, #2f74c8 100%); box-shadow: 0 18px 28px rgba(0,0,0,0.5);"></div>
+  </div>
+  <!-- avatar: robin, mid-sentence -->
+  <div style="position: absolute; left: 620px; top: 214px; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+    <div style="max-width: 190px; padding: 6px 11px; font-size: 13px; line-height: 1.35; color: #0b1424; background: #eaf5ff; border-radius: 8px;">east wall now, next to the plants</div>
+    <div style="padding: 2px 9px; font-size: 12px; font-weight: 700; color: #eaf5ff; background: rgba(10, 18, 34, 0.72); border: 1px solid rgba(57, 198, 255, 0.3); border-radius: 9999px;">robin</div>
+    <div style="width: 40px; height: 88px; border-radius: 20px 20px 12px 12px; background: linear-gradient(180deg, #f7a8c4 0%, #b83c68 100%); box-shadow: 0 18px 28px rgba(0,0,0,0.5);"></div>
+  </div>
+
+  <!-- ── HUD: room label ── -->
+  <div style="position: absolute; left: 16px; top: 16px; padding: 5px 12px; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; color: #bfe9ff; background: rgba(10, 18, 34, 0.72); border: 1px solid rgba(57, 198, 255, 0.3); border-radius: 9999px;">office · #dev</div>
+
+  <!-- ── HUD: top-right cluster ── -->
+  <div style="position: absolute; right: 16px; top: 16px; display: flex; gap: 8px;">
+    <div class="hudbtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#bfe9ff" stroke-width="1.8"><path d="M16 11a4 4 0 0 0-8 0"></path><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M12 18v3"></path></svg></div>
+    <div class="hudbtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#bfe9ff" stroke-width="1.8"><path d="M4 9v6h4l5 4V5L8 9z"></path><path d="M17 9a4 4 0 0 1 0 6"></path></svg></div>
+    <div class="hudbtn" style="width: auto; padding: 0 13px; border-radius: 9999px; font-size: 12px; font-weight: 700; color: #bfe9ff;">3 here</div>
+    <div class="hudbtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#bfe9ff" stroke-width="2"><path d="M5 5l14 14M19 5L5 19"></path></svg></div>
+  </div>
+
+  <!-- ── HUD: the channel is in the room — invite + who is out there ── -->
+  <div style="position: absolute; right: 16px; top: 70px; width: 226px; padding: 10px 12px 12px; background: rgba(10, 18, 34, 0.72); border: 1px solid rgba(57, 198, 255, 0.3); border-radius: 6px; display: flex; flex-direction: column; gap: 7px;">
+    <div style="font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #7ad9ff;">#dev · 14 members</div>
+    <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #dfe9ff;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #39c6ff;"></span>waseem<span style="margin-left: auto; font-size: 11px; color: #7ad9ff;">here</span></div>
+    <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #dfe9ff;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #39c6ff;"></span>robin<span style="margin-left: auto; font-size: 11px; color: #7ad9ff;">here</span></div>
+    <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #93a5c4;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #4a5f85;"></span>dana<span style="margin-left: auto; font-size: 11px; color: #93a5c4;">in chat</span></div>
+    <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #93a5c4;"><span style="width: 7px; height: 7px; border-radius: 50%; background: #4a5f85;"></span>mika<span style="margin-left: auto; font-size: 11px; color: #93a5c4;">away</span></div>
+    <button type="button" style="margin-top: 3px; padding: 6px 0; font-family: inherit; font-size: 12px; font-weight: 800; color: #f0ece0; background: #e8517c; border: none; border-radius: 4px;">invite the channel</button>
+  </div>
+
+  <!-- ── HUD: the chat log, both directions ── -->
+  <div style="position: absolute; left: 16px; bottom: 44px; width: 340px; display: flex; flex-direction: column; gap: 4px;">
+    <div class="logline" style="opacity: 0.4;"><span class="chip">[#dev]</span><span class="who">robin</span> new floor plan landed, desks by the window</div>
+    <div class="logline" style="opacity: 0.4;"><span class="chip">[#dev]</span><span class="who">dana</span> is the whiteboard still on the back wall?</div>
+    <div class="logline" style="opacity: 0.4;"><span class="chip">[#dev]</span><span class="who">dana</span> on a call for ten more minutes</div>
+    <div style="display: flex; align-items: center; gap: 8px; padding: 2px 4px; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #6d84ab;">
+      <span style="flex: 1; height: 1px; background: rgba(120, 180, 255, 0.28);"></span>you walked in<span style="flex: 1; height: 1px; background: rgba(120, 180, 255, 0.28);"></span>
+    </div>
+    <div class="logline"><span class="who">robin</span> east wall now, next to the plants</div>
+    <div class="logline" style="font-style: italic; color: #9fc8ff;">waseem invited #dev · 1 joined</div>
+    <div class="logline"><span class="chip">[#dev]</span><span class="who">dana</span> free now, coming in</div>
+    <div class="logline" style="font-style: italic; color: #7ad9ff;">dana entered the office</div>
+  </div>
+
+  <!-- ── HUD: composer + hint ── -->
+  <div style="position: absolute; left: 50%; bottom: 44px; transform: translateX(-50%); width: 420px; display: flex; align-items: center; gap: 6px;">
+    <div style="flex: 1; padding: 8px 12px; font-size: 14px; color: #8fa6c8; background: rgba(10, 18, 34, 0.82); border: 1px solid rgba(57, 198, 255, 0.35); border-radius: 4px;">say something… <span style="color: #5d7398;">#dev hears it too</span></div>
+    <div style="display: flex; align-items: center; gap: 5px; height: 34px; padding: 0 10px; font-size: 12px; font-weight: 700; color: #8fa6c8; background: rgba(10, 18, 34, 0.82); border: 1px solid rgba(57, 198, 255, 0.35); border-radius: 4px;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8fa6c8" stroke-width="2"><path d="M4 5h16v11H9l-5 4z"></path><path d="M4 20 20 4"></path></svg>
+      quiet
+    </div>
+  </div>
+
+  <div style="position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); padding: 3px 12px; font-size: 12px; color: #8fa6c8; background: rgba(10, 18, 34, 0.5); border-radius: 9999px; white-space: nowrap;">WASD or click to walk · T chat · F interact · V voice · P team · Esc back to #dev</div>
+</div>
+</x-dc>
+</body>
+</html>

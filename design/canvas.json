@@ -1,0 +1,57 @@
+{
+  "artboards": [
+    {
+      "file": "Main.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Web — Creme theme"
+    },
+    {
+      "file": "Mobile.dc.html",
+      "x": 1540,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Mobile — channel"
+    },
+    {
+      "file": "MobileChannels.dc.html",
+      "x": 2030,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Mobile — home"
+    },
+    {
+      "file": "Desktop.dc.html",
+      "x": 0,
+      "y": 1040,
+      "w": 1440,
+      "h": 900,
+      "title": "Desktop — Midnight theme"
+    },
+    {
+      "file": "Notifications.dc.html",
+      "x": 0,
+      "y": 2060,
+      "w": 1440,
+      "h": 900,
+      "title": "Desktop — notification window"
+    }
+  ],
+  "annotations": [
+    {
+      "id": "theme-note",
+      "x": 1540,
+      "y": 1040,
+      "w": 320,
+      "text": "Brand palette applied from Waseem's brand board: navy #1a2138, royal blue #2941c8, cream #f5f1e8, raspberry pink #e8517c (accents, unreads, wordmark), gold #f2c14e, terracotta for agents. Serif (Abril Fatface, standing in for the brand didone) for the wordmark and panel titles; JetBrains Mono everywhere else.\n\nChrome minimized per Waseem: no tab row, no window borders/shadows — the chat stream is full-bleed and owns the screen; everything else is one flat right rail + slim top/bottom strips. mIRC DNA kept: <nick> brackets, green joins / purple actions / blue mode lines, channels + members right, status bar.\n\nThemes: Creme (light, web + mobile) and Midnight (navy dark, desktop)."
+    }
+  ],
+  "launch": {
+    "view": "focused",
+    "file": "Notifications.dc.html"
+  }
+}

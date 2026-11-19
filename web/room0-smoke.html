@@ -1,0 +1,19 @@
+<!doctype html>
+<!-- room0 smoke harness (dev server only — not a build input). Mounts the game
+     with no transport: drive it with window.__room0 / __room0.go('sea') from
+     the headless CDP driver described in docs/room0.md. -->
+<html>
+<head><meta charset="utf-8"><style>html, body { margin: 0; height: 100%; } #c { position: fixed; inset: 0; }</style></head>
+<body>
+<div id="c"></div>
+<script type="module">
+import { createRoom0Game } from '/src/room/three/game3d.js';
+window.game = createRoom0Game({
+  container: document.getElementById('c'),
+  screenName: 'smoke',
+  worldSeed: parseInt(new URLSearchParams(location.search).get('seed')) || 12345,
+  callbacks: {},
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en" data-theme="creme">
+  <head>
+    <meta charset="utf-8">
+    <!-- The privacy backstop, not a formality. See web/src/cards.ts: gliph
+         renders other people's links, and a remote load is a tracking pixel
+         that tells its owner who read the channel and when. Media is fetched
+         on request and handed to the DOM as a blob:, so `img-src` can stay
+         this tight and a missed vector fails closed. -->
+    <!-- Tighter than the client's: the console renders no user content, so it
+         needs neither remote media nor an embed frame. Framing is refused by
+         `frame-ancestors` in the RESPONSE HEADER the Go server sets on /admin —
+         browsers ignore that directive in a meta tag, so it deliberately is not
+         listed here where it would read as covered and do nothing. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src *; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#1a2138">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <title>gliph admin</title>
+    <!-- Inter carries the console's UI text; the client does not load it. Mono
+         is kept for machine values (invite links, ids, generated passwords) and
+         Abril for the wordmark. See the header of src/admin.css. -->
+    <link rel="stylesheet" href="/fonts/g/fonts.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/admin.ts"></script>
+  </body>
+</html>

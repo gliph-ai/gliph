@@ -1,0 +1,17 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "bundle": {
+    "createUpdaterArtifacts": true
+  },
+  "plugins": {
+    "updater": {
+      "endpoints": [
+        "https://gliph.sh/downloads/desktop/latest.json"
+      ],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDNCMEQ5MjFBNTc4QUZDODgKUldTSS9JcFhHcElOTzhoMWtoeE4vOXo3THpDaUF3SFQwTml2WW9pVUJidk9FR2tONDBNRWdIRjgK",
+      "windows": {
+        "installMode": "passive"
+      }
+    }
+  }
+}

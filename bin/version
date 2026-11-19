@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# The one version number every build shares: server, web client, desktop app.
+#
+#   bin/version          0.1.734
+#   bin/version --long   0.1.734+300aae9
+#
+# MAJOR.MINOR is whatever tauri.conf.json says; PATCH is the commit count on
+# HEAD. Every push to main therefore ships a strictly larger SemVer without
+# anyone bumping anything, which is what the desktop updater compares and what
+# `/status` prints. The short sha rides along as build metadata so a version
+# can be traced to its commit; SemVer ignores it for ordering.
+#
+# ponytail: no release.mjs, no tags, no changelog. Add when a real version bump
+# (0.2) matters — that is a one-line edit to tauri.conf.json.
+set -euo pipefail
+ROOT="$(cd -P "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+base=$(sed -n 's/^ *"version": *"\([0-9]*\.[0-9]*\)\..*/\1/p' "$ROOT/desktop/src-tauri/tauri.conf.json" | head -1)
+v="$base.$(git -C "$ROOT" rev-list --count HEAD)"
+[ "${1:-}" = "--long" ] && v="$v+$(git -C "$ROOT" rev-parse --short HEAD)"
+echo "$v"

@@ -1,0 +1,145 @@
+#!/usr/bin/env bash
+# Build the desktop app for Mac and Windows, sign it for the updater, and put
+# it where https://gliph.sh/downloads/desktop serves it — which is also where
+# every running copy's ★ update button looks.
+#
+#   bin/release-desktop              # build both, publish to the prod bucket
+#   bin/release-desktop --no-publish # build both into dist/desktop/<version>
+#
+# CI builds releases on GitHub (.github/workflows/release.yml); this is the
+# same release, built and published from this Mac by hand. Windows is cross-compiled here
+# with cargo-xwin + NSIS (brew install nsis llvm; cargo install cargo-xwin;
+# rustup target add x86_64-pc-windows-msvc); the Mac build is Developer
+# ID-signed and notarized so a first install from the .dmg opens without a
+# Gatekeeper fight. Updates themselves never see Gatekeeper.
+#
+# Secrets stay on this disk: the updater key in ~/.gliph-updater-key (a copy of
+# ~/Desktop/gliph-updater-key — macOS privacy protection makes the Desktop
+# unreadable to a launchd-run runner; see desktop/README.md, losing this key
+# strands every installed copy) and the App Store Connect key in
+# ~/.appstoreconnect. Publishing needs `pl` logged in to the empire org.
+#
+# Linux cannot be cross-compiled by Tauri (webkit2gtk, linuxdeploy), so it is
+# built here too, inside desktop/linux-builder.Dockerfile as linux/amd64 under
+# Docker Desktop's emulation — slow cold (~30 min), a few minutes after that
+# thanks to the target-dir volume. The web client built above is what it
+# bundles; only the Rust side compiles in the container. A .deb and no
+# AppImage: linuxdeploy's appimage plugin is a static-pie binary, which Rosetta
+# cannot execute, and the updater handles .deb installs (with a sudo prompt).
+#
+# ponytail: no Intel Mac. Add a target when there is a tester on one.
+set -euo pipefail
+
+ROOT="$(cd -P "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+export PATH="$HOME/.local/bin:$HOME/.cargo/bin:/opt/homebrew/opt/llvm/bin:/opt/homebrew/bin:/usr/local/bin:$HOME/.local/share/mise/shims:$PATH"
+# launchd starts the CI runner with no locale, and makensis on macOS dies with
+# std::bad_alloc under a C locale. Any UTF-8 locale fixes it.
+export LANG="${LANG:-en_US.UTF-8}"
+
+V="$(bin/version)"
+export GLIPH_VERSION="$(bin/version --long)"
+export GLIPH_SERVER="${GLIPH_SERVER:-https://gliph.sh}"
+BASE_URL="${GLIPH_SERVER%/}/downloads/desktop"
+OUT="$ROOT/dist/desktop/$V"
+TARGET="${CARGO_TARGET_DIR:-$ROOT/desktop/src-tauri/target}"
+export CARGO_TARGET_DIR="$TARGET"
+
+KEYDIR="${GLIPH_UPDATER_KEY_DIR:-$HOME/.gliph-updater-key}"
+[ -r "$KEYDIR/gliph.key" ] || { echo "no updater key at $KEYDIR" >&2; exit 1; }
+export TAURI_SIGNING_PRIVATE_KEY="$(cat "$KEYDIR/gliph.key")"
+export TAURI_SIGNING_PRIVATE_KEY_PASSWORD="$(cat "$KEYDIR/password.txt")"
+
+export APPLE_SIGNING_IDENTITY="${APPLE_SIGNING_IDENTITY:-Developer ID Application: Waseem Sadiq (KF53B4S5HD)}"
+export APPLE_API_KEY="${APPLE_API_KEY:-H9PLG58DB9}"
+export APPLE_API_ISSUER="${APPLE_API_ISSUER:-d5f5385b-5e34-4d70-925d-0debd3a3e090}"
+export APPLE_API_KEY_PATH="${APPLE_API_KEY_PATH:-$HOME/.appstoreconnect/private_keys/AuthKey_$APPLE_API_KEY.p8}"
+
+echo "== gliph desktop $GLIPH_VERSION → $BASE_URL/$V"
+
+# A build the runner can reproduce from a clean clone: dependencies first, and
+# the web client (with the wasm core) once, shared by both OS builds.
+npm --prefix web ci --no-audit --no-fund
+npm --prefix desktop ci --no-audit --no-fund
+npm --prefix web run build
+
+# Old bundles linger in the target dir and the collection globs below would
+# sweep a previous version's installer into this release.
+rm -rf "$TARGET"/release/bundle "$TARGET"/x86_64-pc-windows-msvc/release/bundle
+
+TAURI="desktop/node_modules/.bin/tauri"
+CONF=(-c src-tauri/tauri.release.conf.json --config "{\"version\":\"$V\"}")
+
+echo "== macOS (aarch64)"
+(cd desktop && "../$TAURI" build "${CONF[@]}" --bundles app,dmg)
+
+echo "== Windows (x86_64)"
+(cd desktop && "../$TAURI" build "${CONF[@]}" --runner cargo-xwin --target x86_64-pc-windows-msvc --bundles nsis)
+
+# Collect what the updater needs (.app.tar.gz + .sig, -setup.exe + .sig) and
+# what a first install needs (.dmg, the same .exe).
+rm -rf "$OUT" && mkdir -p "$OUT"
+cp "$TARGET"/release/bundle/macos/*.app.tar.gz{,.sig} "$TARGET"/release/bundle/dmg/*.dmg "$OUT"/
+cp "$TARGET"/x86_64-pc-windows-msvc/release/bundle/nsis/*-setup.exe{,.sig} "$OUT"/
+
+echo "== Linux (x86_64, docker)"
+LINUX="$ROOT/dist/linux"
+rm -rf "$LINUX" && mkdir -p "$LINUX"
+# The image is keyed by its Dockerfile, and only built when that key is new:
+# `docker build` resolves the base image against Docker Hub, and under the CI
+# runner (launchd, no login keychain) Docker's credential helper hangs on that
+# until BuildKit gives up. A cached image asks nobody. After editing the
+# Dockerfile, run this once from a terminal so the new image gets built.
+IMG="gliph-linux-builder:$(md5 -q desktop/linux-builder.Dockerfile)"
+docker image inspect "$IMG" >/dev/null 2>&1 \
+  || docker build -q --platform linux/amd64 -t "$IMG" -f desktop/linux-builder.Dockerfile desktop >/dev/null
+# The repo is mounted read-write because tauri-build writes src-tauri/gen/; the
+# updater artifacts are off — no key in the container, the bundles are signed
+# below, on this side.
+docker run --rm --platform linux/amd64 \
+  -v "$ROOT:/src" -v gliph-linux-target:/target -v gliph-linux-cargo:/usr/local/cargo/registry \
+  -v gliph-linux-cache:/home/builder/.cache -v "$LINUX:/out" \
+  -e GLIPH_SERVER -e GLIPH_VERSION "$IMG" sh -c "
+    rm -rf /target/release/bundle &&
+    tauri build -c src-tauri/tauri.release.conf.json \
+      --config '{\"version\":\"$V\",\"bundle\":{\"createUpdaterArtifacts\":false}}' \
+      --bundles deb &&
+    cp /target/release/bundle/deb/*.deb /out/"
+for f in "$LINUX"/*.deb; do
+  echo "== signing $(basename "$f")"
+  (cd desktop && "../$TAURI" signer sign "$f" >/dev/null)
+  cp "$f" "$f.sig" "$OUT"/
+done
+node desktop/scripts/gen-manifest.mjs --artifacts "$OUT" --version "$V" --base-url "$BASE_URL/$V" --mac-arch aarch64
+ls -la "$OUT"
+
+[ "${1:-}" = "--no-publish" ] && { echo "built, not published: $OUT"; exit 0; }
+
+# Into the `files` bucket of gliph's production environment (`pl storage`),
+# under downloads/desktop/, which the server serves at /downloads/desktop/
+# (-downloads s3:downloads/desktop). The version's files go up first and
+# downloads/desktop/latest.json last: that top-level copy is what names the
+# newest release, so a client that polls mid-upload still sees the previous
+# one, never a manifest pointing at a missing installer. An upload replaces
+# the object, so a failed run is safe to repeat.
+# Needs the admin role in the empire org. The service token
+# gliph-desktop-ci (id 01a1eafc-a44f-7245-82d8-04d1e64a9cb6, admin, expires
+# 2027-11-18; renew with `pl token rotate <id>`) lives in ~/.gliph-pl-token,
+# mode 0600, on this Mac only: an admin token covers the whole empire org, so
+# it never goes into a CI secret. CI's own PUSHLEFT_TOKEN is a member
+# (enough for pl up, not for a production bucket) and is replaced here.
+# Without the file, the stored pl login on this Mac is used.
+BUCKET="${GLIPH_BUCKET:-files}"
+PLTOKEN="${GLIPH_PL_TOKEN_FILE:-$HOME/.gliph-pl-token}"
+# Exported inside a subshell, never passed as an argument: argv shows up in
+# any process listing on this machine, the environment does not.
+publish() {
+  if [ -r "$PLTOKEN" ]; then
+    (export PUSHLEFT_TOKEN="$(cat "$PLTOKEN")"; pl "$@")
+  else
+    (unset PUSHLEFT_TOKEN; pl --org empire "$@")
+  fi
+}
+publish storage cp -r "$OUT" "$BUCKET:downloads/desktop/$V" --production --project gliph
+publish storage cp "$OUT/latest.json" "$BUCKET:downloads/desktop/latest.json" --production --project gliph --content-type application/json
+echo "== published: $(curl -fsS "$BASE_URL/latest.json" | head -c 200)"

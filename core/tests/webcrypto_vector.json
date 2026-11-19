@@ -1,0 +1,10 @@
+{
+  "channel": "c_7",
+  "epoch": 3,
+  "recipient_spki": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEVtCJxaphEPPyE5xWbhhECR62xL+kIOUHtefoWT/9M/M24EDUIVBp5RP8jRcxqY+8jwb7BHp8msKxb6n7yZ4VKQ==",
+  "recipient_pkcs8": "MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgODi2VXMCbe0Ai6RXy5OLKboA68NWY+y4lc3/41CR9IehRANCAARW0InFqmEQ8/ITnFZuGEQJHrbEv6Qg5Qe15+hZP/0z8zbgQNQhUGnlE/yNFzGpj7yPBvsEenyawrFvqfvJnhUp",
+  "sealed_blob": "AFswWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAQU3iypQmLAycJOepj/hwzLD5nO68ASRYAKytQUQEjcQajBwfN9X0oSQxlS1DCZmc7YPtgR9nSat8Pp9WRK8ufav8/vRiP6YqpRWKo6OPdcmr7NvyYLw8r4jtfudxLWzIx+PxMSEaTTct2BoIuS4bM0yt8lqCc4UVgu3G+U",
+  "channel_key": "p6Xf4/c2EQnDyd7yn3hW6hSIpF2K6pTDJDwfEH4nFm8=",
+  "message_body": "HJfNxMr9EQhffC/2bavmuaRTezHpxotfRi6MgAg/c0BMS0bJok/afz26R2nQ/ZPl5hiZFdeLZbG0T6eKPvyzej0IOUguZw==",
+  "message_text": "wheels up — ünïcode ✈ and a tab\there"
+}

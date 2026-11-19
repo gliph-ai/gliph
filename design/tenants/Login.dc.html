@@ -1,0 +1,216 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=JetBrains+Mono:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&display=swap">
+  <style>
+    body { margin: 0; font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .card { background: #f5f1e8; border: 1px solid #948c74; box-shadow: 4px 4px 0 rgba(74, 62, 38, 0.16); }
+    .cardtitle { padding: 7px 16px 8px; font-family: 'Abril Fatface', Georgia, serif; font-weight: 400; font-size: 13.5px;
+                 letter-spacing: 0.03em; color: #f5f1e8; background: #161c32; display: flex; align-items: center; }
+    .lab { font-size: 10.5px; font-weight: 800; color: #858270; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 5px; }
+    .fld { border: 1px solid #948c74; background: #fbf8f0; padding: 10px 13px; font-size: 13px; font-weight: 600; color: #23262e; }
+    .btn { background: #161c32; color: #f5f1e8; padding: 11px 16px; font-size: 13px; font-weight: 800; text-align: center; }
+    .step { font-size: 11px; font-weight: 800; color: #948c74; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+    .tmono { width: 36px; height: 36px; flex: 0 0 36px; display: flex; align-items: center; justify-content: center; position: relative;
+             font-family: 'Abril Fatface', Georgia, serif; font-size: 13px; color: #f5f1e8; line-height: 1; }
+    .trow { display: flex; align-items: center; gap: 13px; padding: 11px 16px; border-bottom: 1px solid #e0dac6; }
+    .nm { font-size: 13px; font-weight: 700; color: #23262e; }
+    .sub { font-size: 10.5px; font-weight: 600; color: #858270; margin-top: 3px; }
+    .addrow { display: flex; align-items: center; gap: 13px; padding: 13px 16px; border-bottom: 1px solid #e0dac6; }
+  </style>
+</helmet>
+
+<div style="width: 980px; height: 1180px; background: #e9e3d2; color: #23262e; padding: 40px; box-sizing: border-box; display: flex; flex-direction: column; gap: 34px;">
+
+  <div style="display: flex; gap: 40px;">
+
+    <!-- ── STEP 1 — the account ───────────────────── -->
+    <div style="width: 400px;">
+      <div class="step">1 · the account — one, in postgres</div>
+      <div class="card">
+        <div style="padding: 30px 30px 26px;">
+          <div style="font-family: 'Abril Fatface', Georgia, serif; font-size: 34px; color: #e8517c; line-height: 1;">gliph</div>
+          <div style="font-size: 12px; font-weight: 600; color: #858270; margin-top: 9px; line-height: 1.6;">one account. every server you are on.</div>
+
+          <div style="margin-top: 26px;">
+            <div class="lab">email</div>
+            <div class="fld">waseem@sadiq.nl</div>
+          </div>
+          <div style="margin-top: 16px;">
+            <div class="lab">password</div>
+            <div class="fld" style="letter-spacing: 0.18em; color: #858270;">••••••••••••<span style="display: inline-block; width: 7px; height: 15px; background: #23262e; vertical-align: text-bottom; margin-left: 2px; letter-spacing: 0;"></span></div>
+          </div>
+
+          <div class="btn" style="margin-top: 22px;">sign in</div>
+
+          <div style="display: flex; margin-top: 14px; font-size: 11px; font-weight: 700;">
+            <span style="color: #2941c8;">create an account</span>
+            <span style="margin-left: auto; color: #858270;">forgot password</span>
+          </div>
+        </div>
+
+        <!-- the self-host door. no gliph account required, ever. -->
+        <div style="border-top: 1px dashed #c2bba6; padding: 15px 30px 20px; background: #ece7d8;">
+          <div style="font-size: 11px; font-weight: 800; color: #1a2138;">already running gliph yourself?</div>
+          <div style="font-size: 11px; font-weight: 600; color: #858270; margin-top: 5px; line-height: 1.6;">
+            connect straight to it — <span style="color: #2941c8; font-weight: 800;">enter an address</span>. no gliph account needed.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── STEP 2 — the servers ─────────────────────── -->
+    <div style="width: 460px;">
+      <div class="step">2 · your servers — from the control plane</div>
+      <div class="card">
+        <div class="cardtitle">Your servers<span style="margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700; color: #9aa3c4;">waseem@sadiq.nl</span></div>
+
+        <div style="background: #faf6ec;">
+          <div class="trow">
+            <div class="tmono" style="background: #2e43cd;">AC</div>
+            <div style="flex: 1; min-width: 0;">
+              <div class="nm">acme</div>
+              <div class="sub">acme.gliph.chat · &lt;waseem&gt; · admin</div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 12px; font-weight: 800; color: #d94f75;">[3]</div>
+              <div class="sub" style="margin-top: 4px;">active now</div>
+            </div>
+          </div>
+
+          <div class="trow">
+            <div class="tmono" style="background: #c76a3e;"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#f5f1e8" stroke-width="2"><circle cx="10" cy="10" r="6"></circle><path d="M10 4v12"></path></svg></div>
+            <div style="flex: 1; min-width: 0;">
+              <div class="nm">hooli</div>
+              <div class="sub">hooli.gliph.chat · &lt;wsm&gt;</div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 12px; font-weight: 800; color: #d94f75;">[7]</div>
+              <div class="sub" style="margin-top: 4px;">12m ago</div>
+            </div>
+          </div>
+
+          <div class="trow">
+            <div class="tmono" style="background: #3f8e3a;">IN</div>
+            <div style="flex: 1; min-width: 0;">
+              <div class="nm">initech</div>
+              <div class="sub">initech.gliph.chat · &lt;w.sadiq&gt;</div>
+            </div>
+            <div class="sub">yesterday</div>
+          </div>
+
+          <div class="trow">
+            <div class="tmono" style="background: #b08a1e;"><svg width="19" height="19" viewBox="0 0 20 20" fill="none" stroke="#f5f1e8" stroke-width="2"><path d="M4 15L10 5l6 10z"></path></svg>
+              <span style="position: absolute; right: -3px; bottom: -3px;">
+                <svg width="12" height="12" viewBox="0 0 16 16" fill="#f5f1e8" stroke="#b08a1e" stroke-width="1.6"><rect x="2.5" y="7" width="11" height="7"></rect><path d="M5 7V5a3 3 0 0 1 6 0v2" fill="none"></path></svg>
+              </span>
+            </div>
+            <div style="flex: 1; min-width: 0;">
+              <div class="nm">vandelay <span style="font-size: 9.5px; font-weight: 700; color: #8a6d15; background: #f0e8cf; padding: 1px 5px;">self-hosted</span></div>
+              <div class="sub">chat.vandelay.industries · signed in on this device</div>
+            </div>
+            <div style="font-size: 12px; font-weight: 800; color: #d94f75;">[2]</div>
+          </div>
+
+          <!-- a server that is not paid up: the control plane knows, the shard does not have to -->
+          <div class="trow" style="border-bottom: none; background: #f7ecd6;">
+            <div class="tmono" style="background: #8a35c8; opacity: 0.45;">UM</div>
+            <div style="flex: 1; min-width: 0;">
+              <div class="nm" style="color: #858270;">umbrella</div>
+              <div class="sub" style="color: #8a6d15; font-weight: 800;">read-only — subscription lapsed 4 days ago</div>
+            </div>
+            <div style="font-size: 11px; font-weight: 800; color: #2941c8;">fix billing</div>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid #c2bba6; background: #ece7d8; display: flex; gap: 20px; padding: 12px 16px; font-size: 11.5px; font-weight: 800; color: #2941c8;">
+          <span>+ create a server</span><span>+ join with an invite</span><span>+ by address</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STEP 3 — adding one ──────────────────────── -->
+  <div style="display: flex; gap: 40px;">
+
+    <div style="width: 460px;">
+      <div class="step">3 · adding a server — three doors, one list</div>
+      <div class="card">
+        <div class="cardtitle">Add a server</div>
+        <div style="background: #faf6ec;">
+
+          <div class="addrow">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2941c8" stroke-width="1.8" style="flex: 0 0 20px;"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5"></path><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5"></path></svg>
+            <div style="flex: 1;">
+              <div class="nm">paste an invite link</div>
+              <div class="fld" style="margin-top: 8px; font-size: 12px; color: #858270;">https://acme.gliph.chat/i/7f3a…<span style="display: inline-block; width: 7px; height: 14px; background: #23262e; vertical-align: text-bottom; margin-left: 2px;"></span></div>
+            </div>
+          </div>
+
+          <div class="addrow">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8a6d15" stroke-width="1.8" style="flex: 0 0 20px;"><rect x="3" y="4" width="18" height="7"></rect><rect x="3" y="14" width="18" height="6"></rect><path d="M7 7.5h.01M7 17h.01"></path></svg>
+            <div style="flex: 1;">
+              <div class="nm">a server address <span style="font-size: 9.5px; font-weight: 700; color: #8a6d15; background: #f0e8cf; padding: 1px 5px;">self-hosted</span></div>
+              <div class="fld" style="margin-top: 8px; font-size: 12px; color: #858270;">chat.vandelay.industries</div>
+            </div>
+          </div>
+
+          <div class="addrow" style="border-bottom: none;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3f8e3a" stroke-width="1.8" style="flex: 0 0 20px;"><path d="M12 5v14M5 12h14"></path></svg>
+            <div style="flex: 1;">
+              <div class="nm">create a new server</div>
+              <div class="sub" style="margin-top: 4px;">picks a shard, provisions the database, mints your admin invite.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- create a server -->
+    <div style="width: 400px;">
+      <div class="step">and what creating one looks like</div>
+      <div class="card">
+        <div class="cardtitle">Create a server</div>
+        <div style="padding: 20px 22px 22px;">
+          <div class="lab">server name</div>
+          <div class="fld">Vandelay Industries</div>
+
+          <div class="lab" style="margin-top: 16px;">address</div>
+          <div style="display: flex; align-items: stretch; border: 1px solid #948c74; background: #fbf8f0;">
+            <div style="padding: 10px 4px 10px 13px; font-size: 13px; font-weight: 700; color: #23262e;">vandelay</div>
+            <div style="padding: 10px 13px 10px 0; font-size: 13px; font-weight: 600; color: #a29c88;">.gliph.chat</div>
+            <div style="margin-left: auto; display: flex; align-items: center; gap: 5px; padding: 0 13px; font-size: 11px; font-weight: 800; color: #3f8e3a;">
+              <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="#3f8e3a" stroke-width="2.4"><path d="M2.5 8.5l4 4 7-8"></path></svg>free
+            </div>
+          </div>
+
+          <div class="lab" style="margin-top: 18px;">plan</div>
+          <div style="display: flex; gap: 9px;">
+            <div style="flex: 1; border: 2px solid #1a2138; background: #ece7d8; padding: 11px 12px;">
+              <div style="font-size: 12px; font-weight: 800;">shared</div>
+              <div style="font-size: 10.5px; font-weight: 600; color: #858270; margin-top: 4px;">€6 / person / mo</div>
+            </div>
+            <div style="flex: 1; border: 1px solid #c2bba6; padding: 11px 12px;">
+              <div style="font-size: 12px; font-weight: 800; color: #858270;">dedicated</div>
+              <div style="font-size: 10.5px; font-weight: 600; color: #a29c88; margin-top: 4px;">own node · from €240</div>
+            </div>
+          </div>
+
+          <div class="btn" style="margin-top: 20px;">create server</div>
+          <div style="font-size: 10.5px; font-weight: 600; color: #858270; margin-top: 12px; line-height: 1.6;">
+            you land in <span style="font-weight: 800; color: #23262e;">#general</span> as admin. move to your own hardware whenever you like — it is one file.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

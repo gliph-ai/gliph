@@ -1,0 +1,421 @@
+/* Admin console.
+ *
+ * The client is mIRC's descendant and dresses like it: JetBrains Mono at 13px,
+ * uppercase labels, hairline boxes, everything square. That is right for a chat
+ * window you stare at all day and wrong for a console someone opens twice a
+ * month to find out why an account cannot log in. It read small and unfriendly.
+ *
+ * So this page borrows inbox2's management layer instead — Inter, sentence
+ * case, negative tracking, a 4px spacing grid, 18px cards with a 1.5px tinted
+ * border and no shadow, and pill-shaped controls. The palette is untouched:
+ * every colour here is still a gliph token from theme.css, so a custom theme
+ * themes the console exactly as before.
+ *
+ * Mono survives in the one place it earns its keep: machine values — an invite
+ * URL, a plugin id, a generated password. Those are strings a person copies or
+ * reads out character by character, and a monospace face is what makes an l
+ * and a 1 different shapes.
+ *
+ * Rules from that layer worth keeping in mind when adding to this file:
+ *   - Sentence case. No text-transform, no positive letter-spacing.
+ *   - Borders are tinted ink, never grey; containers 1.5px, separators 1px.
+ *   - Elevation is border weight, not shadow. Only genuinely floating things
+ *     (the modal) get a shadow.
+ *   - No vertical rules in tables, and the first row's top rule is removed.
+ *   - Healthy states stay quiet. Only problems take a coloured fill.
+ */
+
+/* Radii. inbox2's four steps, and the pill. On :root rather than on .adm
+   because a <dialog> is appended to <body>, outside the console's own subtree —
+   scoped there, the modal silently loses every one of them and squares off. */
+:root {
+  --r-xl: 18px;   /* cards, the table container, the modal */
+  --r-lg: 12px;   /* notices, inset boxes */
+  --r-md: 10px;   /* inputs and selects */
+  --r-pill: 9999px;
+}
+
+/* Same reason the modal is named here: it is not inside .adm. */
+.adm,
+.auth,
+.modal {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+  /* Negative, not positive. The tracking is what stops Inter at this size from
+     reading like a form on a government website. */
+  letter-spacing: -0.1px;
+  color: var(--text);
+}
+
+/* The machine-value face. An invite URL, a plugin id, a password to dictate. */
+.mono, code.link, .modal .gen input, .adm .tabid {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0;
+}
+
+#app { overflow-y: auto; }
+
+/* Nav down the left, the work on the right. The console is a desk, not a
+   feed: the sections stay visible and in the same place all day, and the
+   content column gets the whole width for tables that are genuinely wide. */
+.adm {
+  min-height: 100%;
+  display: grid;
+  grid-template-columns: 232px minmax(0, 1fr);
+  align-items: start;
+}
+
+/* ---- nav ---- */
+
+.adm nav {
+  position: sticky; top: 0;
+  display: flex; flex-direction: column; gap: 4px;
+  min-height: 100dvh; padding: 22px 14px 16px;
+  background: var(--chrome); color: var(--chrome-dim);
+}
+.adm nav .wordmark {
+  font-size: 26px; color: var(--accent-chrome, var(--accent)); line-height: 1;
+  padding: 0 12px; text-decoration: none;
+}
+/* The one uppercase label on the page, and decorative — it is a kicker under
+   the wordmark, not a heading anybody reads twice. */
+.adm nav .sub {
+  padding: 5px 12px 18px; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.09em; text-transform: uppercase; color: var(--chrome-dim);
+}
+.adm nav a {
+  display: block; padding: 9px 14px; border-radius: var(--r-pill);
+  color: var(--chrome-dim); text-decoration: none;
+  font-size: 15px; font-weight: 550;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.adm nav a:hover { color: var(--chrome-text); background: rgb(255 255 255 / 7%); }
+/* A filled pill, not a bar down the side. There is exactly one strongly
+   coloured thing in the nav and it is where you are. */
+.adm nav a.sel,
+.adm nav a.sel:hover { background: var(--accent); color: var(--chrome-text); font-weight: 600; }
+.adm nav .foot {
+  margin-top: auto; padding: 14px 12px 0;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
+}
+.adm nav .foot .who { color: var(--chrome-text); font-weight: 650; margin-bottom: 4px; }
+.adm nav .foot button {
+  font: inherit; font-size: 14px; font-weight: 550; padding: 0;
+  border: 0; background: none; cursor: pointer; color: var(--chrome-dim);
+}
+.adm nav .foot button:hover { color: var(--chrome-text); text-decoration: underline; }
+
+.adm main { padding: 24px 28px 80px; width: 100%; min-width: 0; }
+
+/* The section name and its one create action share a line. */
+.adm .head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 20px; min-height: 38px;
+}
+/* A page title, not a label: sentence case, real size, ink rather than grey. */
+.adm h2 {
+  font-size: 26px; font-weight: 650; letter-spacing: -0.4px;
+  color: var(--text); margin: 0;
+}
+
+/* ---- tables ---- */
+
+/* The card is the border. No shadow — elevation here is border weight, and
+   overflow:hidden is what clips the row backgrounds to the radius. */
+.wrap {
+  overflow-x: auto;
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+}
+
+table { border-collapse: collapse; width: 100%; }
+/* No fill, no uppercase, no bold. A header is soft ink over a slightly
+   stronger rule than the rows below it, and that one step is the whole
+   distinction. */
+th {
+  text-align: left; padding: 12px 16px;
+  font-size: 13px; font-weight: 600; letter-spacing: -0.1px;
+  color: var(--muted); background: none;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+td {
+  padding: 12px 16px; font-size: 15px;
+  border-top: 1px solid var(--border-2); vertical-align: middle;
+}
+/* Rules go on the top edge and the first one is dropped, so the band under the
+   header is the header's own rule rather than two rules stacked. */
+tbody tr:first-child td { border-top: 0; }
+tr:hover td { background: var(--surface-2); }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+td.acts { white-space: nowrap; text-align: right; }
+/* A date is one thing; wrapping it across two lines makes the row taller than
+   every other row for no reading gained. */
+td.dim { white-space: nowrap; }
+/* Row actions are the compact size. Four of them at the standard size push a
+   seven-column table into a horizontal scroll on a laptop. */
+td.acts .btn { font-size: 13px; padding: 5px 11px; margin-left: 4px; }
+/* The actions cell is the one that can give: everything left of it is a value
+   somebody reads, so the table stops needing a scrollbar over eight pixels. */
+td.acts, th:last-child { padding-left: 8px; padding-right: 12px; }
+.dim { color: var(--muted); }
+.nick { font-weight: 650; }
+
+/* Healthy states stay quiet: a neutral chip, with the colour carried by a dot.
+   Only a problem takes a filled pill. No lightshow. */
+.tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; padding: 3px 10px;
+  border: 0; border-radius: var(--r-pill);
+  background: var(--surface-2); color: var(--text-2);
+}
+.tag.on::before {
+  content: ""; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--join); flex-shrink: 0;
+}
+.tag.admin { color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.tag.susp { color: var(--chrome-text); background: var(--accent); }
+
+/* ---- buttons ---- */
+
+/* Every control is a pill. The outline variants invert to a fill on hover,
+   which is the one interaction idiom this page has. */
+.btn {
+  font: inherit; font-size: 14px; font-weight: 600; letter-spacing: 0;
+  padding: 7px 14px; margin-left: 6px; line-height: 1.2;
+  border: 1px solid var(--border); border-radius: var(--r-pill);
+  background: var(--surface); color: var(--text-2);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.07s ease;
+}
+.btn:hover { background: var(--chrome); color: var(--chrome-text); border-color: var(--chrome); }
+.btn.sel { background: var(--chrome); color: var(--chrome-text); border-color: var(--chrome); }
+.btn.danger { background: transparent; color: var(--accent); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+.btn.danger:hover { background: var(--accent); color: var(--chrome-text); border-color: var(--accent); }
+
+/* The primary action. A filled pill with an inset top highlight rather than a
+   drop shadow, and a real press: it scales down under the pointer. */
+.pri {
+  font: inherit; font-size: 15px; font-weight: 600; letter-spacing: 0;
+  padding: 10px 20px; line-height: 1.2;
+  border: 1px solid var(--azure); border-radius: var(--r-pill);
+  background: var(--azure); color: var(--surface);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 22%);
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.07s ease;
+}
+.pri:hover { background: color-mix(in srgb, var(--azure) 82%, var(--chrome)); border-color: transparent; }
+.btn:active, .pri:active { transform: scale(0.965); }
+
+:is(.btn, .pri):focus-visible { outline: 2px solid var(--azure); outline-offset: 2px; }
+
+/* ---- create dialogs ---- */
+
+/* Native <dialog>: the modality, the backdrop, Esc, the focus trap and the
+   required-field validation are all the platform's, so none of it is code. */
+.modal {
+  border: 1.5px solid var(--border); border-radius: var(--r-xl);
+  background: var(--surface); color: var(--text);
+  padding: 0; width: min(440px, calc(100vw - 32px));
+  box-shadow: 0 18px 50px rgb(0 0 0 / 25%);
+}
+/* Navy at 40% and blurred, not black. */
+.modal::backdrop { background: rgb(26 33 56 / 45%); backdrop-filter: blur(5px); }
+.modal form {
+  display: flex; flex-direction: column; padding: 26px 28px 24px;
+  font-family: inherit; font-size: 15px; letter-spacing: -0.1px;
+}
+.modal h3 {
+  margin: 0 0 20px; font-size: 22px; font-weight: 650; letter-spacing: -0.3px;
+  color: var(--text); text-transform: none;
+}
+.modal label {
+  font-size: 13px; font-weight: 600; letter-spacing: -0.1px;
+  color: var(--muted); margin-bottom: 6px; text-transform: none;
+}
+/* Inputs sit below the card rather than on it — recessed, not raised. */
+.modal input, .modal select {
+  font: inherit; font-size: 16px; padding: 11px 14px; width: 100%;
+  border: 1px solid var(--border-2); border-radius: var(--r-md);
+  background: var(--bg); color: var(--text);
+  outline: none;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.modal input:focus, .modal select:focus {
+  border-color: var(--azure);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--azure) 30%, transparent);
+}
+.modal .hint, .modal .note { font-size: 13px; color: var(--muted); }
+.modal .hint { margin: 6px 0 0; }
+.modal :is(input, select, .hint) + label { margin-top: 18px; }
+/* A note, not a callout: no box and no bar down its left. */
+.modal .note { margin: 18px 0 0; }
+/* The generated password sits next to the button that replaces it, and wraps
+   rather than truncating — the operator has to read the whole thing out. */
+.modal .gen { display: flex; gap: 8px; align-items: center; }
+.modal .gen .btn { margin: 0; white-space: nowrap; }
+/* Reversed: the primary button is first in the DOM so Enter picks it, and last
+   on screen where it belongs. */
+.modal .row { display: flex; flex-direction: row-reverse; align-items: center; gap: 10px; margin-top: 24px; }
+.modal .row .btn { margin: 0; padding: 10px 18px; font-size: 15px; }
+/* A destructive verb is the same pill in the accent — the same colour the
+   row's revoke/delete buttons already wear, so the dialog confirms what was
+   pressed rather than introducing a new one. */
+.pri.danger { background: var(--accent); border-color: var(--accent); }
+.pri.danger:hover { background: color-mix(in srgb, var(--accent) 82%, var(--chrome)); }
+/* A yes/no has no fields, so the note is the body: read as text, not a hint. */
+.modal.ask h3 { margin-bottom: 10px; }
+.modal.ask .note { margin: 0; font-size: 15px; color: var(--text-2); line-height: 1.45; }
+
+/* ---- dashboard ---- */
+
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: 14px; margin-bottom: 14px; }
+.tile {
+  border: 1.5px solid var(--border); border-radius: var(--r-xl);
+  background: var(--surface); padding: 14px 18px 12px;
+}
+.tile .k { font-size: 13px; font-weight: 600; letter-spacing: -0.1px; color: var(--muted); }
+.tile .v { font-size: 27px; font-weight: 650; letter-spacing: -0.5px; margin-top: 2px; font-variant-numeric: tabular-nums; }
+
+/* One ink, one line, no fill. The chart is a shape and a peak — colour here
+   would be decoration carrying no extra fact, since there is never a second
+   series to tell apart. */
+/* 280px is chosen so the four charts land as one row at full width and halve
+   cleanly on the way down — three-across leaves a lonely fourth. */
+.charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.chart {
+  margin: 0; border: 1.5px solid var(--border); border-radius: var(--r-xl);
+  background: var(--surface); padding: 14px 18px 12px;
+}
+.chart figcaption { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.chart figcaption .k { font-size: 13px; font-weight: 600; letter-spacing: -0.1px; color: var(--muted); }
+.chart figcaption .v { font-size: 22px; font-weight: 650; letter-spacing: -0.4px; font-variant-numeric: tabular-nums; }
+.chart svg { display: block; width: 100%; height: 84px; margin: 10px 0 6px; }
+/* vector-effect is what lets the box stretch to its column while the stroke
+   stays exactly one pixel — the reason this is SVG and not a canvas. */
+.chart .line {
+  fill: none; stroke: var(--text-2); stroke-width: 1;
+  stroke-linejoin: miter; vector-effect: non-scaling-stroke;
+}
+.chart .grid { stroke: var(--border-2); stroke-width: 1; stroke-dasharray: 1 3; vector-effect: non-scaling-stroke; }
+.chart .axis {
+  display: flex; justify-content: space-between; gap: 8px;
+  font-size: 12px; font-weight: 550; color: var(--muted); font-variant-numeric: tabular-nums;
+}
+.chart .axis .mid { text-align: center; }
+
+/* ---- notices ---- */
+
+/* A tinted box with a border all the way round, not a bar down one side.
+   Server errors are shown verbatim; the console never invents its own wording. */
+.err, .ok {
+  margin-bottom: 18px; padding: 12px 16px; border-radius: var(--r-lg);
+  font-size: 15px; font-weight: 550;
+  background: color-mix(in srgb, var(--accent) 9%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  color: var(--accent);
+  white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.ok {
+  background: color-mix(in srgb, var(--join) 11%, transparent);
+  border-color: color-mix(in srgb, var(--join) 30%, transparent);
+  color: var(--join);
+}
+.empty {
+  padding: 28px 18px; color: var(--muted); text-align: center;
+  border: 1.5px solid var(--border); border-radius: var(--r-xl); background: var(--surface);
+}
+
+/* ---- the dashboard's window picker ---- */
+
+.tools {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 10px;
+  margin-bottom: 14px; font-size: 13px;
+}
+.tools label { font-size: 13px; font-weight: 600; color: var(--muted); }
+.tools .btn { margin-left: 0; }
+.tools .dim { flex: 1 1 260px; }
+
+/* ---- filter ---- */
+
+.search { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; font-size: 13px; }
+.search .qbox { position: relative; display: flex; align-items: center; }
+/* Inside the pill, not beside it: the icon says what the box is for, so it has
+   to sit where the empty box is, not where the row happens to start. */
+.search .qbox svg {
+  position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+  color: var(--muted); pointer-events: none;
+}
+.search input {
+  font: inherit; font-size: 15px; padding: 9px 14px 9px 35px; width: 280px;
+  border: 1px solid var(--border-2); border-radius: var(--r-pill);
+  background: var(--surface); color: var(--text); outline: none;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.search input:focus {
+  border-color: var(--azure);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--azure) 25%, transparent);
+}
+
+code.link { font-size: 13px; word-break: break-all; color: var(--text-2); }
+
+/* ---- the "you are signed in, but not an admin" panel ---- */
+
+/* Not a login form — the sign-in screen is the client's (see admin.ts). This
+   is the one dead end the console draws itself, so it gets the card treatment
+   rather than theme.css's square panel. */
+.auth .panel {
+  border-radius: var(--r-xl); border: 1.5px solid var(--border);
+  padding: 28px; max-width: 440px;
+}
+.auth .panel .sub { margin-bottom: 20px; }
+.auth .panel .go {
+  font: inherit; font-size: 15px; font-weight: 600; padding: 10px 20px;
+  border: 0; border-radius: var(--r-pill);
+  background: var(--chrome); color: var(--chrome-text); cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  /* The nav lies down across the top; nothing else about the page changes. */
+  .adm { grid-template-columns: 1fr; }
+  .adm nav {
+    position: static; min-height: 0; flex-direction: row; align-items: center;
+    gap: 6px; padding: 10px 12px; overflow-x: auto; white-space: nowrap;
+  }
+  .adm nav .sub { display: none; }
+  .adm nav .wordmark { font-size: 20px; padding: 0 8px 0 0; }
+  .adm nav a { padding: 7px 13px; }
+  .adm nav .foot { flex-direction: row; align-items: center; gap: 10px; padding: 0 0 0 8px; }
+  .adm main { padding: 18px 14px 40px; }
+  .adm h2 { font-size: 22px; }
+  .search input { width: 100%; }
+}
+
+/* ---- settings ---- */
+
+.wrap.pad { padding: 20px 22px 22px; overflow-x: visible; }
+.wrap.pad label {
+  display: block; font-size: 15px; font-weight: 650; margin-top: 20px;
+}
+.wrap.pad label:first-child { margin-top: 0; }
+.wrap.pad .hint { font-size: 13px; color: var(--muted); margin: 4px 0 8px; max-width: 62ch; }
+.wrap.pad textarea {
+  display: block; width: 100%; max-width: 62ch;
+  font: inherit; font-size: 15px; padding: 10px 12px;
+  border: 1px solid var(--border); border-radius: var(--r-md);
+  background: var(--surface); color: var(--text); resize: vertical;
+}
+.wrap.pad textarea:focus { outline: 2px solid var(--azure); outline-offset: 1px; }
+.iconrow { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.iconprev {
+  width: 48px; height: 48px; object-fit: cover;
+  border: 1px solid var(--border); border-radius: var(--r-md); background: var(--surface-2);
+}
+.iconprev.empty {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--muted);
+}
+.savebar { margin-top: 22px; }

@@ -1,0 +1,250 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=JetBrains+Mono:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&display=swap">
+  <style>
+    body { margin: 0; font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
+    a { color: #2941c8; } a:hover { color: #1c30a0; }
+    .msg { display: flex; gap: 9px; padding: 1.5px 16px; font-size: 13px; line-height: 1.6; font-weight: 500; color: #23262e; }
+    .t { color: #a29c88; flex: 0 0 55px; font-weight: 500; }
+    .b { flex: 1; min-width: 0; }
+    .nick { font-weight: 700; }
+    .join { color: #3f8e3a; font-weight: 700; }
+    .act { color: #8a35c8; font-weight: 600; font-style: italic; }
+    .rl { display: flex; align-items: baseline; gap: 7px; padding: 2.5px 12px; font-size: 12.5px; font-weight: 600; color: #383c4a; }
+    .boxtitle { padding: 5px 12px 6px; font-family: 'Abril Fatface', Georgia, serif; font-weight: 400; font-size: 13px; letter-spacing: 0.03em; color: #f5f1e8; background: #161c32; }
+
+    /* ── servers in the top bar ── */
+    /* one 22px avatar per other server, its unread in mIRC brackets beside it */
+    .srv   { display: flex; align-items: center; gap: 4px; }
+    .av    { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center;
+             font-family: 'Abril Fatface', Georgia, serif; font-size: 9.5px; color: #f5f1e8; line-height: 1; }
+    .ct    { font-size: 10.5px; font-weight: 800; color: #e8517c; letter-spacing: -0.03em; }
+    .dot   { width: 5px; height: 5px; background: #7f8aab; }
+
+    /* the dropdown */
+    .mrow  { display: flex; align-items: center; gap: 11px; padding: 9px 13px; border-bottom: 1px solid #e0dac6; }
+    .mmono { width: 28px; height: 28px; flex: 0 0 28px; display: flex; align-items: center; justify-content: center; position: relative;
+             font-family: 'Abril Fatface', Georgia, serif; font-size: 11.5px; color: #f5f1e8; line-height: 1; }
+  </style>
+</helmet>
+
+<div style="width: 1440px; height: 900px; display: flex; flex-direction: column; background: #e9e3d2; color: #23262e; overflow: hidden; border: 1px solid #948c74;">
+
+  <!-- ══ MENUBAR — the only place servers live now ══════════════ -->
+  <div style="display: flex; align-items: center; gap: 22px; padding: 7px 16px; background: #161c32; font-size: 12.5px; font-weight: 600; color: #9aa3c4;">
+    <span style="font-family: 'Abril Fatface', Georgia, serif; font-weight: 400; font-size: 19px; color: #e8517c; line-height: 1;">gliph</span>
+    <span>file</span><span>tools</span><span>dcc</span><span>commands</span><span>window</span><span>help</span>
+
+    <!-- where you are, and what is waiting here -->
+    <span style="position: relative; margin-left: auto; display: flex; align-items: center; gap: 8px; padding: 4px 10px; background: #2e43cd; color: #f5f1e8; font-weight: 700; font-size: 12.5px;">
+      <span style="width: 7px; height: 7px; background: #b3e0b8;"></span>
+      waseem <span style="color: #b9c4ee; font-weight: 500;">@</span> acme
+      <span style="font-weight: 800; color: #ffd9e4;">[4]</span>
+      <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="#f5f1e8" stroke-width="1.8"><path d="M1.5 6.5L5 3l3.5 3.5"></path></svg>
+
+      <!-- ── the dropdown, open ───────────────────────────────── -->
+      <span style="position: absolute; right: 0; top: 30px; width: 306px; background: #f5f1e8; border: 1px solid #948c74; box-shadow: 4px 4px 0 rgba(74, 62, 38, 0.2); display: block; color: #23262e; font-weight: 500; z-index: 10;">
+
+        <span style="display: flex; align-items: center; gap: 10px; padding: 10px 13px; background: #161c32;">
+          <span style="width: 28px; height: 28px; background: #ece7d8; color: #161c32; display: flex; align-items: center; justify-content: center; font-family: 'Abril Fatface', Georgia, serif; font-size: 11.5px;">W</span>
+          <span style="min-width: 0;">
+            <span style="display: block; font-size: 12px; font-weight: 800; color: #f5f1e8;">waseem</span>
+            <span style="display: block; font-size: 10px; font-weight: 600; color: #7f8aab; margin-top: 2px;">waseem@sadiq.nl</span>
+          </span>
+        </span>
+
+        <span style="display: block; padding: 6px 13px 5px; font-size: 9.5px; font-weight: 800; color: #948c74; letter-spacing: 0.08em; background: #ece7d8;">SERVERS</span>
+
+        <span style="display: block; background: #faf6ec;">
+          <span class="mrow" style="background: #ece7d8;">
+            <span class="mmono" style="background: #2e43cd;">AC</span>
+            <span style="flex: 1; min-width: 0;">
+              <span style="display: block; font-size: 12.5px; font-weight: 700;">acme</span>
+              <span style="display: block; font-size: 10px; font-weight: 600; color: #858270; margin-top: 2px;">acme.gliph.chat · &lt;waseem&gt;</span>
+            </span>
+            <span style="font-size: 10.5px; font-weight: 800; color: #d94f75;">[4]</span>
+          </span>
+
+          <span class="mrow">
+            <span class="mmono" style="background: #c76a3e;">
+              <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="#f5f1e8" stroke-width="2"><circle cx="10" cy="10" r="6"></circle><path d="M10 4v12"></path></svg>
+            </span>
+            <span style="flex: 1; min-width: 0;">
+              <span style="display: block; font-size: 12.5px; font-weight: 700;">hooli</span>
+              <span style="display: block; font-size: 10px; font-weight: 600; color: #858270; margin-top: 2px;">hooli.gliph.chat · &lt;wsm&gt;</span>
+            </span>
+            <span style="font-size: 10.5px; font-weight: 800; color: #d94f75;">[7]</span>
+          </span>
+
+          <span class="mrow">
+            <span class="mmono" style="background: #3f8e3a;">IN</span>
+            <span style="flex: 1; min-width: 0;">
+              <span style="display: block; font-size: 12.5px; font-weight: 700;">initech</span>
+              <span style="display: block; font-size: 10px; font-weight: 600; color: #858270; margin-top: 2px;">initech.gliph.chat · &lt;w.sadiq&gt;</span>
+            </span>
+            <span style="width: 6px; height: 6px; background: #a29c88;"></span>
+          </span>
+
+          <span class="mrow">
+            <span class="mmono" style="background: #b08a1e;">
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#f5f1e8" stroke-width="2"><path d="M4 15L10 5l6 10z"></path></svg>
+              <span style="position: absolute; right: -3px; bottom: -3px;">
+                <svg width="11" height="11" viewBox="0 0 16 16" fill="#f5f1e8" stroke="#b08a1e" stroke-width="1.8"><rect x="2.5" y="7" width="11" height="7"></rect><path d="M5 7V5a3 3 0 0 1 6 0v2" fill="none"></path></svg>
+              </span>
+            </span>
+            <span style="flex: 1; min-width: 0;">
+              <span style="display: block; font-size: 12.5px; font-weight: 700;">vandelay <span style="font-size: 9px; font-weight: 700; color: #8a6d15; background: #f0e8cf; padding: 1px 4px;">self-hosted</span></span>
+              <span style="display: block; font-size: 10px; font-weight: 600; color: #858270; margin-top: 2px;">chat.vandelay.industries</span>
+            </span>
+            <span style="font-size: 10.5px; font-weight: 800; color: #d94f75;">[2]</span>
+          </span>
+
+          <span class="mrow" style="border-bottom: none;">
+            <span class="mmono" style="background: #8a35c8; opacity: 0.5;">UM</span>
+            <span style="flex: 1; min-width: 0;">
+              <span style="display: block; font-size: 12.5px; font-weight: 700; color: #858270;">umbrella</span>
+              <span style="display: block; font-size: 10px; font-weight: 600; color: #858270; margin-top: 2px;">umbrella.gliph.chat</span>
+            </span>
+          </span>
+        </span>
+
+        <span style="display: block; border-top: 1px solid #c2bba6; background: #ece7d8; font-size: 11.5px; font-weight: 800; color: #2941c8;">
+          <span style="display: block; padding: 9px 13px 4px;">+ add a server</span>
+          <span style="display: block; padding: 4px 13px 9px;">+ create a server</span>
+        </span>
+        <span style="display: flex; border-top: 1px solid #c2bba6; padding: 8px 13px; font-size: 10.5px; font-weight: 700; color: #858270; background: #ded8c5;">
+          <span>account &amp; billing</span><span style="margin-left: auto;">sign out</span>
+        </span>
+      </span>
+    </span>
+
+    <span style="width: 1px; height: 20px; background: #2e3654;"></span>
+
+    <!-- the other servers: avatar, and what is waiting there -->
+    <span style="display: flex; align-items: center; gap: 11px;">
+      <span class="srv">
+        <span class="av" style="background: #c76a3e;">
+          <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="#f5f1e8" stroke-width="2"><circle cx="10" cy="10" r="6"></circle><path d="M10 4v12"></path></svg>
+        </span>
+        <span class="ct">[7]</span>
+      </span>
+
+      <span class="srv">
+        <span class="av" style="background: #3f8e3a; opacity: 0.85;">IN</span>
+        <span class="dot"></span>
+      </span>
+
+      <span class="srv">
+        <span class="av" style="background: #b08a1e;">
+          <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#f5f1e8" stroke-width="2"><path d="M4 15L10 5l6 10z"></path></svg>
+        </span>
+        <span class="ct">[2]</span>
+      </span>
+
+      <span class="srv">
+        <span class="av" style="background: #8a35c8; opacity: 0.45;">UM</span>
+      </span>
+
+      <span style="width: 22px; height: 22px; border: 1px dashed #4a5478; color: #7f8aab; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 500;">+</span>
+    </span>
+  </div>
+
+  <div style="flex: 1; display: flex; min-height: 0;">
+
+    <!-- ── channel window ─────────────────────────── -->
+    <div style="flex: 1; display: flex; flex-direction: column; min-width: 0; background: #f5f1e8;">
+
+      <div style="display: flex; align-items: baseline; gap: 10px; padding: 8px 14px; background: #1a2138; color: #f5f1e8;">
+        <span style="font-size: 13px; font-weight: 800;">#dev</span>
+        <span style="font-size: 12px; font-weight: 700; color: #9aa3c4;">[14] [+nt]</span>
+        <span style="font-size: 12px; font-weight: 500; color: #9aa3c4; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">ship v0.3 — freeze friday · protocol docs: gliph.dev/spec</span>
+        <span style="align-self: center; display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: #b3e0b8;"><svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="#b3e0b8" stroke-width="2" style="vertical-align: -1px;"><rect x="3" y="7" width="10" height="7"></rect><path d="M5 7V5a3 3 0 0 1 6 0v2"></path></svg>e2e</span>
+      </div>
+
+      <div style="flex: 1; overflow: hidden; padding: 10px 0 6px; display: flex; flex-direction: column; justify-content: flex-end; gap: 1px;">
+        <div class="msg"><span class="t">[13:58]</span><span class="b join">*** robin has joined #dev</span></div>
+        <div class="msg"><span class="t">[14:02]</span><span class="b"><span class="nick" style="color: #d94f75;">&lt;dana&gt;</span> morning — merged the sync-log branch, diff worth a look before the freeze</span></div>
+        <div class="msg"><span class="t">[14:05]</span><span class="b act">* robin cracks knuckles and opens the diff</span></div>
+        <div class="msg"><span class="t">[14:06]</span><span class="b"><span class="nick" style="color: #2941c8;">&lt;robin&gt;</span> clean. one nit inline.</span></div>
+
+        <!-- the only thing that reaches across servers -->
+        <div class="msg" style="margin: 7px 0;">
+          <span class="t"></span>
+          <div style="flex: 1; max-width: 560px; border: 1px solid #c2bba6; border-left: 3px solid #c76a3e; background: #ece7d8;">
+            <div style="display: flex; align-items: center; gap: 9px; padding: 6px 12px; font-size: 11px; font-weight: 700; color: #858270; border-bottom: 1px solid #ded8c5;">
+              <span style="width: 15px; height: 15px; background: #c76a3e; display: flex; align-items: center; justify-content: center;">
+                <svg width="10" height="10" viewBox="0 0 20 20" fill="none" stroke="#f5f1e8" stroke-width="2.4"><circle cx="10" cy="10" r="6"></circle><path d="M10 4v12"></path></svg>
+              </span>
+              elsewhere · hooli · #incident<span style="margin-left: auto; font-weight: 600;">14:12</span>
+            </div>
+            <div style="padding: 7px 12px 9px; font-size: 12.5px; font-weight: 500; line-height: 1.6; color: #23262e;">
+              <span style="font-weight: 700; color: #8a35c8;">&lt;priya&gt;</span> <span style="background: #f0d6df; font-weight: 700;">@wsm</span> the rollback finished, can you confirm before I close it out?
+            </div>
+            <div style="display: flex; gap: 16px; padding: 0 12px 9px; font-size: 11px; font-weight: 800;">
+              <span style="color: #2941c8;">switch to hooli</span><span style="color: #858270;">mark read</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="msg"><span class="t">[14:19]</span><span class="b"><span class="nick" style="color: #4a9e2e;">&lt;waseem&gt;</span> two secs, cross-checking on the other server</span></div>
+      </div>
+
+      <div style="padding: 0 10px 10px;">
+        <div style="display: flex; align-items: center; gap: 12px; border: 1px solid #948c74; background: #fbf8f0; padding: 10px 14px;">
+          <span style="font-size: 13px; font-weight: 600; color: #a29c88;">message #dev<span style="display: inline-block; width: 7px; height: 15px; background: #23262e; vertical-align: text-bottom; margin-left: 3px;"></span></span>
+          <div style="margin-left: auto; display: flex; align-items: center; gap: 14px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a29c88" stroke-width="2"><path d="M21 12l-8.5 8.5a5 5 0 0 1-7-7L14 5a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L15 8"></path></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d94f75" stroke-width="2"><path d="M3 12l18-9-6 18-4-7z"></path></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── right rail ─────────────────────────────── -->
+    <div style="flex: 0 0 224px; display: flex; flex-direction: column; min-height: 0; background: #ece7d8; border-left: 1px solid #c2bba6;">
+      <div class="boxtitle">Channels <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700; color: #9aa3c4;">acme</span></div>
+      <div style="padding: 6px 0 8px;">
+        <div class="rl"><span style="color: #a29c88;">#</span>general</div>
+        <div class="rl" style="background: #23262e; color: #f5f1e8;"><span style="color: #9aa3c4;">#</span>dev<span style="margin-left: auto; font-size: 10px; background: #d94f75; color: #f5f1e8; padding: 0 7px; font-weight: 800;">3</span></div>
+        <div class="rl"><span style="color: #a29c88;">#</span>design<svg width="8" height="8" viewBox="0 0 8 8" style="margin-left: auto; align-self: center;"><circle cx="4" cy="4" r="3.5" fill="#d94f75"></circle></svg></div>
+        <div class="rl"><span style="color: #a29c88;">#</span>random<span style="margin-left: auto; font-size: 11px; color: #a29c88;">12</span></div>
+        <div class="rl">
+          <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="#858270" stroke-width="1.8" style="align-self: center;"><rect x="3" y="7" width="10" height="7"></rect><path d="M5 7V5a3 3 0 0 1 6 0v2"></path></svg>
+          launch-sekrit <span style="font-size: 10px; color: #a29c88; font-weight: 700;">+i</span>
+        </div>
+        <div style="border-top: 1px solid #ded8c5; margin: 6px 0;"></div>
+        <div class="rl"><svg width="9" height="9" viewBox="0 0 8 8" style="align-self: center; flex: 0 0 auto;"><circle cx="4" cy="4" r="3.5" fill="#3f8e3a"></circle></svg>dana</div>
+        <div class="rl" style="color: #858270;"><svg width="9" height="9" viewBox="0 0 8 8" style="align-self: center; flex: 0 0 auto;"><circle cx="4" cy="4" r="3" fill="none" stroke="#a29c88" stroke-width="1.4"></circle></svg>robin <span style="font-style: italic; font-size: 10.5px; font-weight: 500;">away: lunch</span></div>
+        <div class="rl"><svg width="10" height="10" viewBox="0 0 10 10" style="align-self: center; flex: 0 0 auto;"><rect x="2.2" y="2.2" width="5.6" height="5.6" transform="rotate(45 5 5)" fill="#c76a3e"></rect></svg>deploybot</div>
+      </div>
+
+      <div style="flex: 1; min-height: 0; display: flex; flex-direction: column;">
+        <div class="boxtitle">Members <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: #9aa3c4;">#dev · 14</span></div>
+        <div style="padding: 6px 0 8px; overflow: hidden;">
+          <div class="rl" style="font-weight: 700;"><span style="color: #d94f75; font-weight: 800;">@</span>dana</div>
+          <div class="rl" style="font-weight: 700;"><span style="color: #d94f75; font-weight: 800;">@</span>robin</div>
+          <div class="rl"><span style="color: #3f8e3a; font-weight: 800;">+</span><svg width="10" height="10" viewBox="0 0 10 10" style="align-self: center; flex: 0 0 auto;"><rect x="2.2" y="2.2" width="5.6" height="5.6" transform="rotate(45 5 5)" fill="#c76a3e"></rect></svg>deploybot</div>
+          <div class="rl"><svg width="7" height="7" viewBox="0 0 8 8" style="align-self: center; flex: 0 0 auto;"><circle cx="4" cy="4" r="1.6" fill="#cbc4ae"></circle></svg>waseem</div>
+          <div class="rl"><svg width="7" height="7" viewBox="0 0 8 8" style="align-self: center; flex: 0 0 auto;"><circle cx="4" cy="4" r="1.6" fill="#cbc4ae"></circle></svg>mika</div>
+          <div class="rl"><svg width="7" height="7" viewBox="0 0 8 8" style="align-self: center; flex: 0 0 auto;"><circle cx="4" cy="4" r="1.6" fill="#cbc4ae"></circle></svg>saar</div>
+          <div class="rl" style="color: #a29c88; font-style: italic;"><svg width="7" height="7" viewBox="0 0 8 8" style="align-self: center; flex: 0 0 auto;"><circle cx="4" cy="4" r="1.6" fill="#a29c88"></circle></svg>jules (away)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 20px; padding: 6px 16px; background: #ded8c5; border-top: 1px solid #c2bba6; font-size: 11px; font-weight: 700; color: #161c32;">
+    <span>connected</span><span>acme.gliph.chat</span><span>tls 1.3</span><span>e2e: mls</span><span>lag 12ms</span>
+    <span style="margin-left: auto;">5 servers · 9 unread elsewhere · ⌘K to switch</span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

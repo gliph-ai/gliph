@@ -1,0 +1,212 @@
+[
+  {
+    "id": "r-reply-jump",
+    "date": "2026-08-28",
+    "title": "Reply to a message, and jump back to it",
+    "body": "Right-click a line and pick reply. The quote rides inside the encrypted body, so the server never learns who answered whom. Click any quote to scroll back to the line it answers."
+  },
+  {
+    "id": "r-room0",
+    "date": "2026-09-03",
+    "title": "Your channel has a 3D room",
+    "body": "Type /room0 in any channel and walk into it. Voices fade as people move away, the whiteboards on the wall are the channel's, and a voice note left on the wall waits for whoever comes next. Five worlds to pick from: sea, dunes, campfire, space, terminal. Web and desktop for now."
+  },
+  {
+    "id": "r-room0-button",
+    "date": "2026-09-05",
+    "title": "Open the room without typing",
+    "body": "The channel's app row, next to todos and pins, now has a room0 button that takes you in. The command moved with it: /room0 opens the room, and /3d still does the same thing."
+  },
+  {
+    "id": "r-system-messages",
+    "date": "2026-09-04",
+    "title": "Release notes show up in your stream",
+    "body": "Every new version now arrives with its notes, right in the channel, with our unicorn beside them. You get three lines and open the rest if you want it. Your admin can set a message of the day the same way, with your own team icon on it, from Settings in the admin console."
+  },
+  {
+    "id": "r-room0-rowboat",
+    "date": "2026-09-05",
+    "title": "Row the boat",
+    "body": "The rowboat on the open sea now moves. Sit on a bench and row with the keys you walk with, alone or with two friends on the other benches. Everyone in the room sees the boat where you left it."
+  },
+  {
+    "id": "r-room0-fidelity",
+    "date": "2026-09-05",
+    "title": "Sharper sand, wavier water",
+    "body": "The open sea now ripples under the sun path and the crests break into real foam. The dunes picked up wind ripples and grains that glitter when you walk toward the light, and the campfire clearing stands on proper earth. Same worlds, same seeds, more to look at."
+  },
+  {
+    "id": "r-room0-position",
+    "date": "2026-09-05",
+    "title": "Come back where you stood",
+    "body": "Leaving the 3D room no longer resets you to the office. Close it, chat for an hour, open it again and you are back on the same dune or the same log by the fire."
+  },
+  {
+    "id": "r-room0-stream",
+    "date": "2026-09-06",
+    "title": "Say it in room0, the channel hears it",
+    "body": "What you say in the room now lands in the channel it belongs to, marked with the room you said it in. Walk in and the last few lines of the channel are already there. Ask someone in with /room0 invite, and use /room0 quiet when you want a side conversation to stay out of the stream."
+  },
+  {
+    "id": "r-push-with-desktop-open",
+    "date": "2026-09-07",
+    "title": "Your phone buzzes even with the desktop open",
+    "body": "A private message used to skip your phone whenever the desktop app was running somewhere else. Now every phone you have signed in gets the nudge, and the notification is still written on the phone itself with your own keys. These release notes have moved to #general, so nothing lands on top of a private conversation."
+  },
+  {
+    "id": "r-idle-repaint",
+    "date": "2026-09-08",
+    "title": "The chat stops jumping while you read",
+    "body": "The window redrew itself every five seconds even when nothing was happening, and each redraw could nudge the stream or fold a picture you had opened back into its button. Now a quiet connection stays quiet: the screen only redraws when there is something new to show."
+  },
+  {
+    "id": "r-p2p-preview",
+    "date": "2026-09-09",
+    "title": "Images you send directly show up in the stream",
+    "body": "A file you hand someone in a DM, or to a phone standing next to you, never touches the server. The picture now previews under its line at both ends, off the copy your own client is holding. Resize it with [ - ] and [ + ] and tap it for the full size, the same as any other image."
+  },
+  {
+    "id": "r-system-channel",
+    "date": "2026-09-09",
+    "title": "Release notes moved to #system",
+    "body": "Every note about a new build now sits in #system, oldest first, so nothing lands on top of what you were reading in #general. The whole run of them stays there to catch up on whenever you want, and there is nothing to close. Your team's message of the day still shows in #general."
+  },
+  {
+    "id": "r-drop-to-send",
+    "date": "2026-09-09",
+    "title": "Drop a file on the window to send it",
+    "body": "Drag an image or any other file anywhere into Gliph and it goes out the way a picked one does, straight into the conversation you are looking at. In a DM it travels to the other person and never touches the server. Dropping a file used to hand the window to the browser, which put the image where Gliph had been."
+  },
+  {
+    "id": "r-missed-digest",
+    "date": "2026-09-09",
+    "title": "One email while you are away",
+    "body": "If you are away while messages pile up, gliph emails you once. It carries counts and channel names only, because the server holds ciphertext and cannot read a word of what was said. One email per absence, at most one a day, and it stays quiet until you sign in again."
+  },
+  {
+    "id": "r-phone-chrome",
+    "date": "2026-09-09",
+    "title": "Channels slide in, settings has its own screen",
+    "body": "Tapping # on the phone slides the channel list in from the left over the conversation instead of covering the whole screen, and a swipe in from the left edge opens it, a swipe back closes it. The rows are big enough to hit with a thumb, in the browser on a narrow screen too. The key in the top right used to sign you out in one tap. It opens settings now, where you can see who you are signed in as and which build you are running, and where signing out is a button."
+  },
+  {
+    "id": "r-phone-stream-pin",
+    "date": "2026-09-09",
+    "title": "The phone stream stays on the newest line",
+    "body": "A picture whose file is gone was holding half a screen of nothing, so a channel that ended in one looked empty until you scrolled up. It reads [ preview unavailable ] in one line now. Sending a message, switching channel, or a picture landing all leave you on the newest line."
+  },
+  {
+    "id": "r-read-sync",
+    "date": "2026-09-10",
+    "title": "Read on one device, read on all of them",
+    "body": "Open the browser after a week on your phone and the messages you already read stay read. Where you have got to belongs to your account now, so clearing a badge on one device clears it on the others as it happens. Marks only move forward, which means a device coming back from offline leaves your read state alone."
+  },
+  {
+    "id": "r-many-servers",
+    "date": "2026-11-17",
+    "title": "All your servers in one window",
+    "body": "Sign in to a second server and both sit in the top bar, each with whatever is waiting on it in brackets. One click moves you across, and the one you left keeps its own history, its own unread and the nick you use there. Your device keeps the same key everywhere, so sealed history stays readable wherever you sign in."
+  },
+  {
+    "id": "r-landing",
+    "date": "2026-11-18",
+    "title": "Run your own Gliph with one command",
+    "body": "Run curl -fsSL https://gliph.sh/install.sh | sudo sh -s chat.example.com on a Linux server, and Gliph installs, gets its certificate and starts. Open your domain and create the first account, which is the admin. Visitors to gliph.sh who are not signed in now see the front page with the apps and this command."
+  },
+  {
+    "id": "r-webhooks",
+    "date": "2026-11-18",
+    "title": "Webhooks in and out",
+    "body": "An op types /hook in ci and gets a URL, and anything POSTed to it shows up in the channel as ci with the AGENT label. /hook out <url> sends each channel event to your own service, signed with HMAC-SHA256. In an encrypted channel the delivery holds who, when and what kind, and no text."
+  },
+  {
+    "id": "r-export",
+    "date": "2026-11-18",
+    "title": "Save a channel as a file",
+    "body": "Type /export in any channel or DM. You get a text file and a JSONL file with the history on your device, decrypted, and both open in any text editor. Add txt or jsonl to get one of them."
+  },
+  {
+    "id": "r-selfhost-backup",
+    "date": "2026-11-18",
+    "title": "Back up a whole server in one file",
+    "body": "gliph -backup writes your server to one encrypted file with its accounts, channels, history and files. Restore it on a new machine with gliph -restore, and your apps connect again without a new login. On the first start of a new server, you set up TLS, the server name and the admin account in three steps."
+  },
+  {
+    "id": "r-ios-dm-direct",
+    "date": "2026-11-18",
+    "title": "Send a file from your iPhone in a DM",
+    "body": "In a DM on the iPhone, attach a file and it goes straight to the other person's device. The server passes only the handshake and never gets the file. The other person accepts the file first, and the app saves it only when its checksum matches."
+  },
+  {
+    "id": "r-ios-wifi-aware",
+    "date": "2026-11-18",
+    "title": "Chat nearby with no Wi-Fi network",
+    "body": "On iOS 26, pair two iPhones once in Settings, under Phones nearby. After that, nearby mode connects the two phones over Wi-Fi Aware, with no network between you. You still find desktops and older phones on shared Wi-Fi."
+  },
+  {
+    "id": "r-device-approval",
+    "date": "2026-11-18",
+    "title": "Approve each new device",
+    "body": "A new device can't read encrypted channels until you approve it. On a device you already use, type /approve and the code the new device shows. Until then, other people see \"unapproved device\" next to your name, and /devices lists every device on your account."
+  },
+  {
+    "id": "r-channel-history",
+    "date": "2026-11-18",
+    "title": "Choose who reads a channel's history",
+    "body": "Create a channel with /create #name sealed, and people who join read only what is said after they join. Without sealed, people who join read what came before, in encrypted channels too. The channel header shows history: open or history: sealed."
+  },
+  {
+    "id": "r-open-source",
+    "date": "2026-11-18",
+    "title": "Gliph is open source",
+    "body": "The server, the apps and the plugin kit are yours to use under MIT or Apache-2.0. Run your own server, change the code and ship your changes."
+  },
+  {
+    "id": "r-first-run",
+    "date": "2026-11-18",
+    "title": "A welcome card for new accounts",
+    "body": "Make a new account and you start in #general with a short welcome card. It shows the one thing to learn first: type / to see every command. Close it with × and it stays closed."
+  },
+  {
+    "id": "r-themes",
+    "date": "2026-11-18",
+    "title": "Install your own theme",
+    "body": "Drop a theme file on the window, or type /theme add and paste one in. A theme is a block of colour tokens like --bg: #12172a; and if a line is wrong, you see which one and nothing installs. Switch with /theme and its name, and /theme creme takes you back."
+  },
+  {
+    "id": "r-a11y",
+    "date": "2026-11-18",
+    "title": "Higher contrast in both themes",
+    "body": "Every text colour in creme and midnight now passes the WCAG AA contrast floor, on the web, the desktop and the iPhone. A ring shows which control has the keyboard. When your system asks for reduced motion, Gliph stops animating, and on the iPhone the text follows your text size setting."
+  },
+  {
+    "id": "r-scripts",
+    "date": "2026-11-18",
+    "title": "Scripts that answer for you",
+    "body": "Type /script add and a name to write a small script that runs on your device when someone highlights you, joins, or says a line that matches a pattern. A script can post one line or show you a notice, and it has no network or file access. A script that runs too long is stopped and you get a notice, and /script export saves any script as text to share."
+  },
+  {
+    "id": "r-android",
+    "date": "2026-11-18",
+    "title": "Gliph on Android",
+    "body": "Gliph now runs on Android phones. You get your servers, encrypted channels, replies and image previews, as on the iPhone. A file you send in a DM goes straight to the other phone when the network allows. When it has to pass through a relay, it stays encrypted on the way."
+  },
+  {
+    "id": "r-ipad",
+    "date": "2026-11-18",
+    "title": "Channels beside the chat on iPad",
+    "body": "On an iPad the channel list sits next to the conversation. Tap # to hide it and tap again to bring it back. The iPad remembers your choice."
+  },
+  {
+    "id": "r-approve-qr",
+    "date": "2026-11-18",
+    "title": "Approve a new device with your camera",
+    "body": "A new device now shows a QR code next to its approval code. Point your phone's camera at it, open Gliph and tap Approve. Typing /approve with the code still works."
+  },
+  {
+    "id": "r-substrate",
+    "date": "2026-11-18",
+    "title": "Talk to your coding agents from a channel",
+    "body": "Run /substrate link <project> in a channel to see that project's agent conversations there. Type @<project> and a message to send it to the project's coding agent, after the developer approves it. Sign in to substrate.gliph.sh with your Gliph account in one click."
+  }
+]

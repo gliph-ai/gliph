@@ -1,0 +1,34 @@
+# Copy to terraform.tfvars (gitignored) and fill in. The kubeconfig for the
+# shared RKE2 node goes next to it as kubeconfig.yaml, also gitignored.
+
+registry_username = "waseem"
+registry_password = "<gitlab token with read_registry>"
+
+# image = "registry.erip.me/gliph/gliph:latest"
+# host  = "gliph.sh"
+
+# Direct APNs for iOS. One APNs auth key serves every app on the team; the
+# id is printed beside it on developer.apple.com → Keys.
+# apns_key_id = "XXXXXXXXXX"
+# apns_key = <<-EOT
+# -----BEGIN PRIVATE KEY-----
+# …
+# -----END PRIVATE KEY-----
+# EOT
+
+# TURN relay (coturn on the node, see coturn.tf). Setting turn_secret deploys
+# coturn AND hands the server its -stun/-turn/-turn-secret flags; the three
+# lines stand or fall together. openssl rand -hex 32 for the secret.
+# stun_url    = "stun:gliph.sh:3478"
+# turn_url    = "turn:gliph.sh:3478?transport=udp,turn:gliph.sh:3478?transport=tcp"
+# turn_secret = "<openssl rand -hex 32>"
+
+# Outbound email (missed-message digests) on the shared devops@erip.me SES
+# account, eu-west-1, production access. Unset, gliph sends no mail.
+#
+# mail_from must be an identity verified in that account. gliph.sh is verified
+# as a domain (its three DKIM CNAMEs are published at Porkbun), so any address
+# on it works; devops@erip.me is verified too and is the fallback.
+# ses_access_key_id     = "AKIA..."
+# ses_secret_access_key = "<secret>"
+# mail_from             = "noreply@gliph.sh"

@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=JetBrains+Mono:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&display=swap">
+  <style>
+    body { margin: 0; font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
+    a { color: #7d92f0; } a:hover { color: #a3b2f5; }
+    .msg { display: flex; gap: 9px; padding: 2px 14px; font-size: 13px; line-height: 1.6; font-weight: 500; }
+    .t { flex: 0 0 55px; font-weight: 500; }
+    .b { flex: 1; min-width: 0; }
+    .nick { font-weight: 800; }
+    .lbl { font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #f2c14e; }
+    .sub { font-size: 11.5px; font-weight: 500; line-height: 1.5; color: #8d95b8; }
+    .dark { background: #1e2540; color: #e2ddcd; }
+    .dark .t { color: #6a7396; }
+    .light { background: #f5f1e8; color: #23262e; }
+    .light .t { color: #a29c88; }
+    .cell { padding: 8px 0; }
+  </style>
+</helmet>
+
+<div style="width: 1020px; height: 960px; background: #141a2c; color: #e2ddcd; padding: 26px 28px; display: flex; flex-direction: column; gap: 16px; border: 1px solid #364060; overflow: hidden;">
+
+  <div style="display: flex; align-items: baseline; gap: 12px;">
+    <span style="font-family: 'Abril Fatface', Georgia, serif; font-size: 22px; color: #e8517c;">the room0 mark</span>
+    <span class="sub">B won: the gradient lives in the glyphs, and the mark names the room it was said in.</span>
+  </div>
+
+  <div style="display: flex; gap: 14px; padding-left: 190px;">
+    <span class="lbl" style="flex: 1;">midnight</span>
+    <span class="lbl" style="flex: 1;">creme</span>
+  </div>
+
+  <!-- A -->
+  <div style="display: flex; gap: 14px; align-items: flex-start;">
+    <div style="flex: 0 0 176px; display: flex; flex-direction: column; gap: 3px;"><span class="lbl">A · gradient pill</span><span class="sub">loudest. reads as a badge, breaks the mono column a little</span></div>
+    <div class="cell dark" style="flex: 1;">
+      <div class="msg"><span class="t">[14:04]</span><span class="b"><span style="display: inline-block; margin-right: 6px; padding: 0 6px 1px; font-size: 10.5px; font-weight: 800; letter-spacing: 0.06em; color: #08111f; background: linear-gradient(100deg, #39c6ff 0%, #7d92f0 100%); vertical-align: 1px;">room0</span><span class="nick" style="color: #9fc0ff;">&lt;robin&gt;</span> east wall now, next to the plants</span></div>
+    </div>
+    <div class="cell light" style="flex: 1;">
+      <div class="msg"><span class="t">[14:04]</span><span class="b"><span style="display: inline-block; margin-right: 6px; padding: 0 6px 1px; font-size: 10.5px; font-weight: 800; letter-spacing: 0.06em; color: #f5f1e8; background: linear-gradient(100deg, #0b8fd0 0%, #2941c8 100%); vertical-align: 1px;">room0</span><span class="nick" style="color: #2941c8;">&lt;robin&gt;</span> east wall now, next to the plants</span></div>
+    </div>
+  </div>
+
+  <!-- B -->
+  <div style="display: flex; gap: 14px; align-items: flex-start;">
+    <div style="flex: 0 0 176px; display: flex; flex-direction: column; gap: 3px;"><span class="lbl" style="color: #39c6ff;">B · gradient text · chosen</span><span class="sub">mIRC brackets, gradient inside the glyphs, naming the room. two rooms in one channel read apart</span></div>
+    <div class="cell dark" style="flex: 1;">
+      <div class="msg"><span class="t">[14:04]</span><span class="b"><span style="margin-right: 5px; font-weight: 800; background: linear-gradient(100deg, #39c6ff 0%, #9d8ef5 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">[office]</span><span class="nick" style="color: #9fc0ff;">&lt;robin&gt;</span> east wall now, next to the plants</span></div>
+      <div class="msg"><span class="t">[14:06]</span><span class="b"><span style="margin-right: 5px; font-weight: 800; background: linear-gradient(100deg, #39c6ff 0%, #9d8ef5 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">[lounge]</span><span class="nick" style="color: #f2c14e;">&lt;mika&gt;</span> coffee's on if anyone wants a break</span></div>
+    </div>
+    <div class="cell light" style="flex: 1;">
+      <div class="msg"><span class="t">[14:04]</span><span class="b"><span style="margin-right: 5px; font-weight: 800; background: linear-gradient(100deg, #0b8fd0 0%, #2941c8 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">[office]</span><span class="nick" style="color: #2941c8;">&lt;robin&gt;</span> east wall now, next to the plants</span></div>
+      <div class="msg"><span class="t">[14:06]</span><span class="b"><span style="margin-right: 5px; font-weight: 800; background: linear-gradient(100deg, #0b8fd0 0%, #2941c8 100%); -webkit-background-clip: text; background-clip: text; color: transparent;">[lounge]</span><span class="nick" style="color: #b08a1e;">&lt;mika&gt;</span> coffee's on if anyone wants a break</span></div>
+    </div>
+  </div>
+
+  <!-- C -->
+  <div style="display: flex; gap: 14px; align-items: flex-start;">
+    <div style="flex: 0 0 176px; display: flex; flex-direction: column; gap: 3px;"><span class="lbl">C · gradient rule</span><span class="sub">quietest. a lit edge down the run of room lines, no badge at all</span></div>
+    <div class="cell dark" style="flex: 1;">
+      <div class="msg" style="padding-left: 0;"><span style="width: 3px; align-self: stretch; margin-right: 11px; background: linear-gradient(180deg, #39c6ff 0%, #7d92f0 100%);"></span><span class="t">[14:04]</span><span class="b"><span class="nick" style="color: #9fc0ff;">&lt;robin&gt;</span> east wall now, next to the plants</span></div>
+      <div class="msg" style="padding-left: 0;"><span style="width: 3px; align-self: stretch; margin-right: 11px; background: linear-gradient(180deg, #7d92f0 0%, #39c6ff 100%);"></span><span class="t">[14:05]</span><span class="b"><span class="nick" style="color: #93c99a;">&lt;waseem&gt;</span> photographing it now</span></div>
+    </div>
+    <div class="cell light" style="flex: 1;">
+      <div class="msg" style="padding-left: 0;"><span style="width: 3px; align-self: stretch; margin-right: 11px; background: linear-gradient(180deg, #0b8fd0 0%, #2941c8 100%);"></span><span class="t">[14:04]</span><span class="b"><span class="nick" style="color: #2941c8;">&lt;robin&gt;</span> east wall now, next to the plants</span></div>
+      <div class="msg" style="padding-left: 0;"><span style="width: 3px; align-self: stretch; margin-right: 11px; background: linear-gradient(180deg, #2941c8 0%, #0b8fd0 100%);"></span><span class="t">[14:05]</span><span class="b"><span class="nick" style="color: #3f8e3a;">&lt;waseem&gt;</span> photographing it now</span></div>
+    </div>
+  </div>
+
+  <!-- D -->
+  <div style="display: flex; gap: 14px; align-items: flex-start;">
+    <div style="flex: 0 0 176px; display: flex; flex-direction: column; gap: 3px;"><span class="lbl">D · flat brackets</span><span class="sub">no gradient at all. the mIRC-honest control to judge the others against</span></div>
+    <div class="cell dark" style="flex: 1;">
+      <div class="msg"><span class="t">[14:04]</span><span class="b"><span style="margin-right: 5px; font-weight: 800; color: #39c6ff;">[office]</span><span class="nick" style="color: #9fc0ff;">&lt;robin&gt;</span> east wall now, next to the plants</span></div>
+    </div>
+    <div class="cell light" style="flex: 1;">
+      <div class="msg"><span class="t">[14:04]</span><span class="b"><span style="margin-right: 5px; font-weight: 800; color: #0b7fbf;">[office]</span><span class="nick" style="color: #2941c8;">&lt;robin&gt;</span> east wall now, next to the plants</span></div>
+    </div>
+  </div>
+
+  <!-- status colours -->
+  <div style="display: flex; gap: 14px; align-items: flex-start; margin-top: 4px;">
+    <div style="flex: 0 0 176px; display: flex; flex-direction: column; gap: 3px;"><span class="lbl">status lines</span><span class="sub">electric blue for the room, so it never reads as a channel join (green)</span></div>
+    <div class="cell dark" style="flex: 1;">
+      <div class="msg"><span class="t">[14:02]</span><span class="b" style="color: #39c6ff; font-weight: 700;">*** waseem entered room0 · office</span></div>
+      <div class="msg"><span class="t">[14:14]</span><span class="b" style="color: #4f88a8; font-weight: 700;">*** robin left room0 · 11m inside</span></div>
+      <div class="msg"><span class="t">[14:15]</span><span class="b" style="color: #5fc9c9; font-weight: 700;">*** voice open in room0 · 2</span></div>
+      <div class="msg"><span class="t">[14:22]</span><span class="b" style="color: #93c99a; font-weight: 700;">*** mika has joined #dev</span></div>
+    </div>
+    <div class="cell light" style="flex: 1;">
+      <div class="msg"><span class="t">[14:02]</span><span class="b" style="color: #0b7fbf; font-weight: 700;">*** waseem entered room0 · office</span></div>
+      <div class="msg"><span class="t">[14:14]</span><span class="b" style="color: #5d8ba3; font-weight: 700;">*** robin left room0 · 11m inside</span></div>
+      <div class="msg"><span class="t">[14:15]</span><span class="b" style="color: #1f8a8a; font-weight: 700;">*** voice open in room0 · 2</span></div>
+      <div class="msg"><span class="t">[14:22]</span><span class="b" style="color: #3f8e3a; font-weight: 700;">*** mika has joined #dev</span></div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

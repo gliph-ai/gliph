@@ -1,0 +1,6 @@
+# path-prefix  # reason — accepted findings, shown under "Accepted by design" in the report
+core/tests/webcrypto_vector.json  # test vector: a throwaway P-256 key pair and blob sealed by browser WebCrypto, read by core/tests/webcrypto_compat.rs
+deploy/prod/tfvars.example  # commented PRIVATE KEY placeholder ("…" body) showing where the APNs key goes
+plugins/e2e.mjs  # e2e test password hunter2hunter2 for a throwaway account on a local server
+desktop/src-tauri/tauri.release.conf.json  # the updater's minisign PUBLIC key (3B0D921A578AFC88), public by design
+mobile/test/webcrypto_vector.json  # the same test vector at its path before the Flutter rebuild (history, 4243407): a throwaway P-256 key pair, never a credential

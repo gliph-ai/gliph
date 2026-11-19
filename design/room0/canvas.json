@@ -1,0 +1,48 @@
+{
+  "artboards": [
+    {
+      "file": "Main.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "#dev \u2014 room0 woven into the stream"
+    },
+    {
+      "file": "InRoom.dc.html",
+      "x": 1560,
+      "y": 0,
+      "w": 1120,
+      "h": 720,
+      "title": "Inside room0 \u2014 the channel comes with you"
+    },
+    {
+      "file": "Invite.dc.html",
+      "x": 0,
+      "y": 1060,
+      "w": 980,
+      "h": 1600,
+      "title": "The invite \u2014 every state"
+    },
+    {
+      "file": "Tags.dc.html",
+      "x": 1100,
+      "y": 1060,
+      "w": 1020,
+      "h": 960,
+      "title": "The room0 mark \u2014 pick one"
+    }
+  ],
+  "annotations": [
+    {
+      "id": "decisions",
+      "x": 1560,
+      "y": 860,
+      "w": 420,
+      "text": "Settled, and drawn this way:\n\n1. The mark is variant B. Gradient inside the glyphs, mIRC brackets, and it names the room: [office], [lounge].\n2. A room0 line is a real channel message carrying an origin flag. Same envelope, same store, same search. Spatial events stay room.event.\n3. The bridge runs both ways. /room0 quiet stops your own lines reaching the stream, and they are still kept in history and found by search.\n4. Two rows, not one. The invite posts once and answers once, then it is history. Presence is the pinned strip above the composer, a thin lit band that updates in place all session and fades a beat after the room empties.\n5. Electric blue #39c6ff for the room, a dimmed #4f88a8 for leaving, teal for voice. The channel keeps its green joins.\n6. Voice announces itself and offers listen in. Room voice stays room voice this round.\n7. Anyone in the channel can open a channel wide invite, and it lives as long as someone is inside. Join greys out when the room empties.\n8. Walking in pre-fills the room log with the channel's last few lines, dimmed, above a you walked in rule. Everything still fades.\n9. Invites ping like a mention, personal and channel wide, with join in the notification itself.\n10. room0 runs on web and desktop. The push opens #dev with the strip, and the line on the phone says where to go."
+    }
+  ],
+  "launch": {
+    "view": "canvas"
+  }
+}

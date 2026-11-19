@@ -1,0 +1,18 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1440, "h": 900, "title": "Web — servers in the top bar (Creme)" },
+    { "file": "QuickSwitch.dc.html", "x": 1560, "y": 0, "w": 1440, "h": 900, "title": "Desktop — /server quick switch (Midnight)" },
+    { "file": "Mobile.dc.html", "x": 3120, "y": 0, "w": 390, "h": 844, "title": "Mobile — the server sheet" },
+    { "file": "Login.dc.html", "x": 0, "y": 1060, "w": 980, "h": 1180, "title": "One account, many servers — sign in, pick, add" }
+  ],
+  "annotations": [
+    {
+      "id": "decisions",
+      "x": 1060,
+      "y": 1060,
+      "w": 470,
+      "text": "Settled with Waseem:\n\n1. It is a SERVER, not a team. /server switches, the address is a host, and self-hosting stays the same word as hosting with us. \"team\" survives only as a plan tier, and even that is now \"shared\" vs \"dedicated\" — which is what the shards actually are.\n\n2. NO LEFT RAIL. Everything lives in the top bar, so the stream keeps the full width and there is no second navigation column to explain. The rail sketch is gone.\n\n3. The top bar carries two things. Where you are — waseem @ acme [4], with that server's own unread in mIRC brackets — and beside it, one small avatar per OTHER server with its unread in brackets. One click on an avatar switches. The identity chip opens the full dropdown: hosts, your nick on each, add, create, account and billing.\n\n4. The avatar is the server's own icon. The settings table already stores one per server, so hooli and vandelay show theirs; initech and umbrella have none and fall back to a two-letter Abril monogram on their colour.\n\n5. The avatar row appears at the SECOND server. One server means the chip alone, and \"+ add a server\" inside it — no icons, no divider, nothing to explain until there is something to switch to.\n\n6. Web, desktop and mobile. Mobile puts the same chip in the header with the two loudest servers beside it and a +2 overflow; the full list is the bottom sheet.\n\n7. Two navies, per Waseem's dashboard mockup. Chrome is #161c32, active chip #2e43cd, which is the brand royal blue the mockup already uses. Everything stays square.\n\nDrawn this way, and why:\n\n8. One account, a nick per server. The gliph account is global and lives in Postgres. Your identity on a server is local to that server's own database — <waseem> on acme, <wsm> on hooli. mIRC worked exactly like this, a nick per network, and it is what the architecture already does.\n\n9. Unread grammar, three states. [7] in raspberry = mentions waiting. A small grey square = unread, nobody said your name. Nothing = read. Dimmed avatar = quiet server.\n\n10. Mentions elsewhere come to you. A cross-server mention renders in the stream as a bordered card in that server's colour, with switch to hooli on it. It is the only thing that reaches across.\n\n11. Quick switch is a command line, not a search box. Cmd-K opens /server and typing filters. Cmd-1..9 jumps.\n\n12. Self-hosted servers sit in the same list, padlock-marked, and the address field is on the login card itself. You never need a gliph account to reach one.\n\n13. Billing state shows where servers are picked, never inside the chat. A lapsed server goes read-only and says so in the picker. The shard stays dumb about money."
+    }
+  ],
+  "launch": { "view": "canvas" }
+}

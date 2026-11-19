@@ -1,0 +1,13 @@
+.gradle/
+.kotlin/
+build/
+/local.properties
+.idea/
+*.iml
+.DS_Store
+captures/
+*.apk
+*.aab
+# android/tools/build-core.sh output: the native core and its Kotlin binding.
+# Generated, never committed, for the reason mobile/tools/build-core.sh gives.
+/core/

@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=JetBrains+Mono:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&display=swap">
+  <style>
+    body { margin: 0; font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
+    a { color: #2941c8; } a:hover { color: #1c30a0; }
+    .row { display: flex; align-items: center; gap: 11px; padding: 12px 14px; border-bottom: 1px solid #e0dac6; }
+    .nm { font-size: 13.5px; color: #23262e; font-weight: 700; }
+    .pre { font-size: 11px; font-weight: 500; color: #858270; margin-top: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .boxtitle { padding: 5px 14px 6px; font-family: 'Abril Fatface', Georgia, serif; font-weight: 400; font-size: 12.5px; letter-spacing: 0.03em; color: #f5f1e8; background: #1a2138; }
+  </style>
+</helmet>
+
+<div style="width: 390px; height: 844px; display: flex; flex-direction: column; background: #f5f1e8; color: #23262e; overflow: hidden;">
+
+  <!-- header -->
+  <div style="padding: 54px 14px 12px; background: #e9e3d2; border-bottom: 1px solid #c2bba6;">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="flex: 1;">
+        <div style="font-size: 16px; font-weight: 800;">acme.gliph.chat</div>
+        <div style="font-size: 10.5px; font-weight: 600; color: #858270; margin-top: 2px;">waseem [+e2e] · connected · cache fresh</div>
+      </div>
+      <svg width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="#1a2138" stroke-width="1.8"><circle cx="7" cy="7" r="4.5"></circle><path d="M10.5 10.5L14 14"></path></svg>
+      <svg width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="#1a2138" stroke-width="1.8"><circle cx="8" cy="8" r="2.6"></circle><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.4 3.4l1.4 1.4M11.2 11.2l1.4 1.4M12.6 3.4l-1.4 1.4M4.8 11.2l-1.4 1.4"></path></svg>
+    </div>
+  </div>
+
+  <!-- nearby banner -->
+  <div style="margin: 12px 12px 2px; border: 1px dashed #b08a1e; background: #f0e8cf;">
+    <div style="display: flex; align-items: center; gap: 10px; padding: 10px 12px;">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#b08a1e" stroke-width="1.8"><circle cx="8" cy="12" r="1.4" fill="#b08a1e" stroke="none"></circle><path d="M4.5 9.5a5 5 0 0 1 7 0"></path><path d="M2 7a8.5 8.5 0 0 1 12 0"></path></svg>
+      <div style="flex: 1;">
+        <div style="font-size: 12px; color: #8a6d15; font-weight: 800;">3 peers nearby</div>
+        <div style="font-size: 10.5px; font-weight: 600; color: #858270; margin-top: 2px;">#rooftop — ad-hoc mesh, no server</div>
+      </div>
+      <div style="font-size: 12px; color: #8a6d15; font-weight: 800; padding: 8px 4px;">join</div>
+    </div>
+  </div>
+
+  <div style="flex: 1; overflow: hidden; padding-top: 10px;">
+    <div class="boxtitle">Channels</div>
+    <div style="background: #faf6ec;">
+      <div class="row" style="background: #23262e;">
+        <span style="color: #9aa3c4; font-size: 15px; font-weight: 800;">#</span>
+        <div style="flex: 1; min-width: 0;">
+          <div class="nm" style="color: #f5f1e8; font-weight: 800;">dev</div>
+          <div class="pre" style="color: #9aa3c4;">&lt;dana&gt; final assets for the launch page…</div>
+        </div>
+        <span style="font-size: 10px; background: #d94f75; color: #f5f1e8; padding: 1px 8px; font-weight: 800;">3</span>
+      </div>
+      <div class="row">
+        <span style="color: #a29c88; font-size: 15px; font-weight: 800;">#</span>
+        <div style="flex: 1; min-width: 0;">
+          <div class="nm">general</div>
+          <div class="pre">&lt;mika&gt; lunch orders in the thread</div>
+        </div>
+      </div>
+      <div class="row">
+        <span style="color: #a29c88; font-size: 15px; font-weight: 800;">#</span>
+        <div style="flex: 1; min-width: 0;">
+          <div class="nm">design</div>
+          <div class="pre">*** saar uploaded gloam-palette-v2.png</div>
+        </div>
+        <span style="font-size: 11px; font-weight: 700; color: #a29c88;">12</span>
+      </div>
+      <div class="row" style="border-bottom: none;">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#1a2138" stroke-width="1.8"><rect x="3" y="7" width="10" height="7"></rect><path d="M5 7V5a3 3 0 0 1 6 0v2"></path></svg>
+        <div style="flex: 1; min-width: 0;">
+          <div class="nm">launch-sekrit <span style="font-size: 10px; color: #a29c88; font-weight: 700;">+i</span></div>
+          <div class="pre">you invited legal-eva · pending</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="boxtitle" style="margin-top: 14px;">Direct</div>
+    <div style="background: #faf6ec;">
+      <div class="row">
+        <svg width="9" height="9" viewBox="0 0 8 8" style="align-self: center; flex: 0 0 auto;"><circle cx="4" cy="4" r="3.5" fill="#3f8e3a"></circle></svg>
+        <div style="flex: 1; min-width: 0;">
+          <div class="nm">dana</div>
+          <div class="pre">*** wormhole: footage-raw.tar received</div>
+        </div>
+      </div>
+      <div class="row" style="border-bottom: none;">
+        <svg width="9" height="9" viewBox="0 0 8 8" style="align-self: center; flex: 0 0 auto;"><circle cx="4" cy="4" r="3" fill="none" stroke="#a29c88" stroke-width="1.4"></circle></svg>
+        <div style="flex: 1; min-width: 0;">
+          <div class="nm">robin <span style="color: #858270; font-style: italic; font-weight: 500; font-size: 11px;">away: lunch</span></div>
+          <div class="pre">&lt;robin&gt; will do after standup</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="boxtitle" style="margin-top: 14px;">Agents</div>
+    <div style="background: #faf6ec;">
+      <div class="row" style="border-bottom: none;">
+        <svg width="10" height="10" viewBox="0 0 10 10" style="align-self: center; flex: 0 0 auto;"><rect x="2.2" y="2.2" width="5.6" height="5.6" transform="rotate(45 5 5)" fill="#c76a3e"></rect></svg>
+        <div style="flex: 1; min-width: 0;">
+          <div class="nm">deploybot</div>
+          <div class="pre">watching #dev · last action 14:14</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- bottom nav -->
+  <div style="display: flex; border-top: 1px solid #c2bba6; background: #e9e3d2; padding: 12px 0 26px;">
+    <div style="flex: 1; text-align: center; color: #23262e; font-size: 11px; font-weight: 800;">chats</div>
+    <div style="flex: 1; text-align: center; color: #858270; font-size: 11px; font-weight: 600;">people</div>
+    <div style="flex: 1; text-align: center; color: #858270; font-size: 11px; font-weight: 600;">files</div>
+    <div style="flex: 1; text-align: center; color: #858270; font-size: 11px; font-weight: 600;">you</div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

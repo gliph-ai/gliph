@@ -1,0 +1,10 @@
+# Build artifacts. The Rust core, its Swift bindings and the Xcode project are
+# all generated (tools/build-core.sh, xcodegen), so none of them is committed —
+# a checked-in copy of a generated file is one that goes stale unnoticed.
+Generated/
+GliphCore.xcframework/
+Gliph.xcodeproj/
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/

@@ -1,0 +1,20 @@
+{
+  "name": "gliph-plugins",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "license": "MIT OR Apache-2.0",
+  "description": "Gliph plugin SDK and example bots/agents",
+  "scripts": {
+    "deploybot": "node deploybot.mjs",
+    "claude": "node claude-agent.mjs",
+    "e2e": "node e2e.mjs",
+    "check": "node mcp-check.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.71.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

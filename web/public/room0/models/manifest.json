@@ -1,0 +1,6 @@
+{
+  "models": [
+    "desk", "chair", "server", "plant", "cooler", "whiteboard", "holo",
+    "tree", "fountain", "sofa", "fridge", "counter", "palm", "umbrella", "lounger"
+  ]
+}

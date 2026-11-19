@@ -1,0 +1,29 @@
+{
+  "name": "gliph-web",
+  "private": true,
+  "version": "0.1.0",
+  "license": "MIT OR Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "core": "wasm-pack build ../core --release --target web --out-dir ../web/src/core --out-name gliph_core -- --features wasm",
+    "dev": "npm run core && vite --port 5184 --strictPort",
+    "build": "npm run core && tsc --noEmit && vite build && npm run check",
+    "preview": "vite preview --port 5184 --strictPort",
+    "check": "node --experimental-strip-types scripts/check-render.mjs && node scripts/contrast.mjs"
+  },
+  "devDependencies": {
+    "pixelarticons": "2.4.1",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.11.1",
+    "@tauri-apps/plugin-notification": "2.3.3",
+    "@tauri-apps/plugin-opener": "^2.5.4",
+    "monaco-editor": "0.56.0",
+    "three": "^0.185.1"
+  },
+  "overrides": {
+    "dompurify": "^3.4.17"
+  }
+}

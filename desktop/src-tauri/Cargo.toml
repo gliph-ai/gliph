@@ -1,0 +1,92 @@
+[package]
+name = "gliph-desktop"
+version = "0.1.0"
+description = "Gliph desktop client"
+edition = "2021"
+rust-version = "1.77.2"
+license = "MIT OR Apache-2.0"
+# `tauri dev` runs the binary straight out of target/ with no .app around it, so
+# macOS has no Info.plist to read and falls back to the executable's FILENAME
+# for the menu bar and the app switcher. Naming the binary Gliph is what makes
+# dev say "Gliph" instead of "gliph-desktop"; the bundled builds get their name
+# from productName either way.
+default-run = "Gliph"
+
+[lints.rust]
+# objc 0.2's class!/msg_send!/sel! macros expand to `#[cfg(feature =
+# "cargo-clippy")]`, which check-cfg reports as an unexpected value on every
+# AppKit call. Declaring it expected keeps those benign warnings out of the way.
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(feature, values("cargo-clippy"))'] }
+
+[[bin]]
+name = "Gliph"
+path = "src/main.rs"
+
+[lib]
+name = "gliph_desktop_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["macos-private-api"] }
+tauri-plugin-opener = "2"
+tauri-plugin-window-state = "2"
+tauri-plugin-log = "2"
+# Desktop alerts. WKWebView does not implement the web Notification API, so the
+# browser path in web/src/notify.ts has nothing to fall back on here; this is
+# the only way a bundled Gliph can post a real OS notification.
+tauri-plugin-notification = "2"
+# In-app updates. 2.10+ is the floor for multi-installer manifests — see the
+# [profile.release] note below, they are the same trap from two directions.
+tauri-plugin-updater = "2.10"
+log = "0.4"
+# tauri::generate_context! expands to serde_json calls once tauri.conf.json
+# carries a plugins block, so the crate has to name it even though no line of
+# our own code does.
+serde_json = "1"
+# The device-link flow: PKCE needs a SHA-256 and 64 random bytes, the callback
+# needs base64url, and redeeming the code needs one HTTP POST. All four are
+# already in the dependency graph via tauri — naming them costs no build time.
+sha2 = "0.10"
+# The nearby mesh (mesh.rs) derives its frames, and discovers peers over
+# Bonjour/mDNS — the same `_gliph._tcp` the iOS plugin registers, which is what
+# puts a Mac and an iPhone in one mesh instead of two. serde is already in the
+# graph via tauri; mdns-sd is the only new crate the mesh needs.
+serde = { version = "1", features = ["derive"] }
+mdns-sd = "0.11"
+base64 = "0.22"
+getrandom = "0.3"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+# Only for the dev-build identity in lib.rs: `tauri dev` runs unbundled, so
+# macOS ignores bundle.icon and productName entirely and the only way to label
+# a dev run is to talk to AppKit at runtime. All three crates are already in the
+# graph via tauri, so this adds no build weight.
+objc2 = "0.6"
+objc2-app-kit = "0.3"
+objc2-foundation = "0.3"
+# The notification window becomes a non-activating NSPanel (notifypanel.rs).
+# tauri-nspanel has no crates.io release for Tauri 2; the v2 branch is what
+# every Tauri 2 consumer uses.
+tauri-nspanel = { git = "https://github.com/ahkohd/tauri-nspanel", branch = "v2" }
+# The panel's focus overrides swizzle two AppKit methods. objc 0.2 (not objc2)
+# because that is what tauri-nspanel registers RawNSPanel through, and the two
+# runtimes must agree on the class it is patching.
+objc = "0.2"
+
+[target.'cfg(any(target_os = "windows", target_os = "linux"))'.dependencies]
+# On Windows/Linux a second app launch spawns a whole new process instead of
+# routing to the running one. The single-instance plugin forwards it into the
+# live instance so re-opening Gliph raises the window it already has. macOS does
+# this natively, so the plugin is not compiled there (see lib.rs).
+tauri-plugin-single-instance = "2"
+
+[profile.release]
+# DO NOT ADD `strip = true`. The Tauri CLI embeds a `__TAURI_BUNDLE_TYPE` symbol
+# that the updater reads to know which installer it is running as; stripping
+# removes it, and multi-installer updates then silently pick the wrong artifact.
+# The binary is bigger. That is the price of the update working.
+strip = false

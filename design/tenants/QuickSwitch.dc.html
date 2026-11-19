@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=JetBrains+Mono:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&display=swap">
+  <style>
+    body { margin: 0; font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
+    a { color: #7d92f0; } a:hover { color: #a3b2f5; }
+    .msg { display: flex; gap: 9px; padding: 1.5px 16px; font-size: 13px; line-height: 1.6; font-weight: 500; color: #e2ddcd; }
+    .t { color: #6a7396; flex: 0 0 55px; font-weight: 500; }
+    .b { flex: 1; min-width: 0; }
+    .nick { font-weight: 700; }
+    .join { color: #93c99a; font-weight: 700; }
+    .rl { display: flex; align-items: baseline; gap: 7px; padding: 2.5px 12px; font-size: 12.5px; font-weight: 600; color: #c9c4b2; }
+    .boxtitle { padding: 5px 12px 6px; font-family: 'Abril Fatface', Georgia, serif; font-weight: 400; font-size: 13px; letter-spacing: 0.03em; color: #141a2c; background: #8d95b8; }
+    .srv { display: flex; align-items: center; gap: 4px; }
+    .av  { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center;
+           font-family: 'Abril Fatface', Georgia, serif; font-size: 9.5px; color: #f5f1e8; line-height: 1; }
+    .ct  { font-size: 10.5px; font-weight: 800; color: #e8517c; letter-spacing: -0.03em; }
+    .dot { width: 5px; height: 5px; background: #6a7396; }
+    .prow { display: flex; align-items: center; gap: 12px; padding: 9px 14px; border-bottom: 1px solid #2e3654; }
+    .pmono { width: 30px; height: 30px; flex: 0 0 30px; display: flex; align-items: center; justify-content: center;
+             font-family: 'Abril Fatface', Georgia, serif; font-size: 12px; color: #f5f1e8; }
+    .phost { font-size: 10.5px; font-weight: 600; color: #6a7396; margin-top: 2px; }
+    .pname { font-size: 13px; font-weight: 700; color: #e2ddcd; }
+  </style>
+</helmet>
+
+<div style="width: 1440px; height: 900px; display: flex; flex-direction: column; background: #141a2c; color: #e2ddcd; overflow: hidden; border: 1px solid #364060; position: relative;">
+
+  <!-- menubar -->
+  <div style="display: flex; align-items: center; gap: 22px; padding: 7px 16px; background: #1e2540; border-bottom: 1px solid #2e3654; font-size: 12.5px; font-weight: 600; color: #8d95b8;">
+    <span style="display: flex; gap: 7px; align-items: center;">
+      <span style="width: 11px; height: 11px; border-radius: 50%; background: #364060;"></span>
+      <span style="width: 11px; height: 11px; border-radius: 50%; background: #364060;"></span>
+      <span style="width: 11px; height: 11px; border-radius: 50%; background: #364060;"></span>
+    </span>
+    <span style="font-family: 'Abril Fatface', Georgia, serif; font-weight: 400; font-size: 19px; color: #e8517c; line-height: 1;">gliph</span>
+    <span>file</span><span>tools</span><span>dcc</span><span>commands</span><span>window</span><span>help</span>
+
+    <span style="margin-left: auto; display: flex; align-items: center; gap: 8px; padding: 4px 10px; background: #2e43cd; color: #f5f1e8; font-weight: 700; font-size: 12.5px;">
+      <span style="width: 7px; height: 7px; background: #b3e0b8;"></span>
+      waseem <span style="color: #b9c4ee; font-weight: 500;">@</span> acme
+      <span style="font-weight: 800; color: #ffd9e4;">[4]</span>
+      <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="#f5f1e8" stroke-width="1.8"><path d="M1.5 3.5L5 7l3.5-3.5"></path></svg>
+    </span>
+
+    <span style="width: 1px; height: 20px; background: #364060;"></span>
+
+    <span style="display: flex; align-items: center; gap: 11px;">
+      <!-- hooli is the ⌘K match below, so its avatar is ringed -->
+      <span class="srv">
+        <span class="av" style="background: #c76a3e; box-shadow: 0 0 0 1.5px #f2c14e;">
+          <svg width="15" height="15" viewBox="0 0 20 20" fill="none" stroke="#f5f1e8" stroke-width="2"><circle cx="10" cy="10" r="6"></circle><path d="M10 4v12"></path></svg>
+        </span>
+        <span class="ct">[7]</span>
+      </span>
+      <span class="srv">
+        <span class="av" style="background: #3f8e3a; opacity: 0.85;">IN</span>
+        <span class="dot"></span>
+      </span>
+      <span class="srv">
+        <span class="av" style="background: #b08a1e;">
+          <svg width="14" height="14" viewBox="0 0 20 20" fill="none" stroke="#f5f1e8" stroke-width="2"><path d="M4 15L10 5l6 10z"></path></svg>
+        </span>
+        <span class="ct">[2]</span>
+      </span>
+      <span class="srv"><span class="av" style="background: #8a35c8; opacity: 0.45;">UM</span></span>
+      <span style="width: 22px; height: 22px; border: 1px dashed #4a5478; color: #7f8aab; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 500;">+</span>
+    </span>
+  </div>
+
+  <div style="flex: 1; display: flex; min-height: 0;">
+
+    <div style="flex: 1; display: flex; flex-direction: column; min-width: 0; background: #1e2540;">
+      <div style="display: flex; align-items: baseline; gap: 10px; padding: 8px 14px; background: #8d95b8; color: #141a2c;">
+        <span style="font-size: 13px; font-weight: 800;">#dev</span>
+        <span style="font-size: 12px; font-weight: 700; color: #364060;">[14] [+nt]</span>
+        <span style="font-size: 12px; font-weight: 500; color: #364060; flex: 1;">ship v0.3 — freeze friday</span>
+      </div>
+      <div style="flex: 1; overflow: hidden; padding: 10px 0 6px; display: flex; flex-direction: column; justify-content: flex-end; gap: 1px; opacity: 0.4;">
+        <div class="msg"><span class="t">[13:58]</span><span class="b join">*** robin has joined #dev</span></div>
+        <div class="msg"><span class="t">[14:02]</span><span class="b"><span class="nick" style="color: #e8517c;">&lt;dana&gt;</span> morning — merged the sync-log branch</span></div>
+        <div class="msg"><span class="t">[14:06]</span><span class="b"><span class="nick" style="color: #7d92f0;">&lt;robin&gt;</span> clean. one nit inline.</span></div>
+        <div class="msg"><span class="t">[14:11]</span><span class="b"><span class="nick" style="color: #c084f0;">&lt;mika&gt;</span> that talk on hole punching I mentioned, from 8:40 —</span></div>
+        <div class="msg"><span class="t">[14:17]</span><span class="b"><span class="nick" style="color: #e8517c;">&lt;dana&gt;</span> final assets for the launch page, grab before friday</span></div>
+        <div class="msg"><span class="t">[14:19]</span><span class="b"><span class="nick" style="color: #93c99a;">&lt;waseem&gt;</span> two secs, cross-checking on the other server</span></div>
+      </div>
+      <div style="padding: 0 10px 10px;">
+        <div style="display: flex; align-items: center; gap: 12px; border: 1px solid #364060; background: #141a2c; padding: 10px 14px;">
+          <span style="font-size: 13px; font-weight: 600; color: #6a7396;">message #dev</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="flex: 0 0 224px; display: flex; flex-direction: column; background: #1a2138; border-left: 1px solid #2e3654; opacity: 0.45;">
+      <div class="boxtitle">Channels <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700; color: #364060;">acme</span></div>
+      <div style="padding: 6px 0 8px;">
+        <div class="rl"><span style="color: #6a7396;">#</span>general</div>
+        <div class="rl" style="background: #e2ddcd; color: #141a2c;"><span style="color: #6a7396;">#</span>dev<span style="margin-left: auto; font-size: 10px; background: #e8517c; color: #141a2c; padding: 0 7px; font-weight: 800;">3</span></div>
+        <div class="rl"><span style="color: #6a7396;">#</span>design</div>
+        <div class="rl"><span style="color: #6a7396;">#</span>random</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 20px; padding: 6px 16px; background: #1a2138; border-top: 1px solid #2e3654; font-size: 11px; font-weight: 700; color: #8d95b8;">
+    <span>connected</span><span>acme.gliph.chat</span><span>tls 1.3</span><span>e2e: mls</span>
+    <span style="margin-left: auto;">5 servers · 9 unread elsewhere</span>
+  </div>
+
+  <!-- ══ QUICK SWITCH — ⌘K, or type /server ══════════════════════ -->
+  <div style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; background: rgba(10, 14, 26, 0.55);"></div>
+
+  <div style="position: absolute; left: 396px; top: 150px; width: 560px; background: #1e2540; border: 1px solid #4a5478; box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.45);">
+
+    <div style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: #141a2c; border-bottom: 1px solid #2e3654;">
+      <span style="font-size: 14px; font-weight: 800; color: #e8517c;">/server</span>
+      <span style="font-size: 14px; font-weight: 600; color: #e2ddcd;">ho<span style="display: inline-block; width: 7px; height: 16px; background: #e2ddcd; vertical-align: text-bottom; margin-left: 1px;"></span></span>
+      <span style="margin-left: auto; font-size: 10.5px; font-weight: 700; color: #4a5478;">↑↓ move · ⏎ switch · esc close</span>
+    </div>
+
+    <div class="prow" style="background: #2e43cd;">
+      <div class="pmono" style="background: #c76a3e;">
+        <svg width="19" height="19" viewBox="0 0 20 20" fill="none" stroke="#f5f1e8" stroke-width="2"><circle cx="10" cy="10" r="6"></circle><path d="M10 4v12"></path></svg>
+      </div>
+      <div style="flex: 1; min-width: 0;">
+        <div class="pname" style="color: #f5f1e8;"><span style="background: #f2c14e; color: #141a2c; font-weight: 800;">ho</span>oli</div>
+        <div class="phost" style="color: #b9c4ee;">hooli.gliph.chat · you are &lt;wsm&gt;</div>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-size: 11px; font-weight: 800; color: #f5f1e8;">[7] mentions</div>
+        <div style="font-size: 10px; font-weight: 600; color: #b9c4ee; margin-top: 2px;">#incident #ops #general</div>
+      </div>
+    </div>
+
+    <div class="prow">
+      <div class="pmono" style="background: #b08a1e;">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="#f5f1e8" stroke-width="2"><path d="M4 15L10 5l6 10z"></path></svg>
+      </div>
+      <div style="flex: 1; min-width: 0;">
+        <div class="pname">vandelay <span style="font-size: 10px; font-weight: 700; color: #6a7396;">self-hosted</span></div>
+        <div class="phost">chat.vandelay.industries · you are &lt;waseem&gt;</div>
+      </div>
+      <div style="font-size: 11px; font-weight: 800; color: #e8517c;">[2]</div>
+    </div>
+
+    <div class="prow">
+      <div class="pmono" style="background: #3f8e3a;">IN</div>
+      <div style="flex: 1; min-width: 0;">
+        <div class="pname">initech</div>
+        <div class="phost">initech.gliph.chat · you are &lt;w.sadiq&gt;</div>
+      </div>
+      <div style="font-size: 10.5px; font-weight: 700; color: #6a7396;">unread</div>
+    </div>
+
+    <div class="prow" style="opacity: 0.55;">
+      <div class="pmono" style="background: #2e43cd;">AC</div>
+      <div style="flex: 1; min-width: 0;">
+        <div class="pname">acme</div>
+        <div class="phost">acme.gliph.chat · you are here</div>
+      </div>
+      <div style="font-size: 10.5px; font-weight: 700; color: #6a7396;">current</div>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 18px; padding: 10px 16px; background: #141a2c; font-size: 11.5px; font-weight: 700;">
+      <span style="color: #7d92f0;">+ join with an invite</span>
+      <span style="color: #7d92f0;">+ add a server by address</span>
+      <span style="margin-left: auto; color: #4a5478; font-weight: 600;">⌘1–9 jumps straight to a server</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# Build the Gliph desktop app for THIS Mac and install it into /Applications,
+# so it launches like any other app instead of only under `tauri dev`.
+#
+#   bin/install-app
+#
+# Signing: picks the best identity in the keychain (Developer ID, else Apple
+# Development) and hands it to `tauri build` via APPLE_SIGNING_IDENTITY.
+# Override or disable:
+#   APPLE_SIGNING_IDENTITY="Developer ID Application: …"   exact string
+#   APPLE_SIGNING_IDENTITY="-"                             ad-hoc / unsigned
+# What matters is that the signature is STABLE, not that it is distributable:
+# an ad-hoc signature changes the code identity on every rebuild, so anything
+# macOS pins to it (Keychain grants, notification permission, TCC prompts) is
+# void and re-prompts each launch. Notarization is skipped — a locally built,
+# locally signed app has no quarantine attribute and launches without it.
+#
+# Built with the release config, so this copy still carries the updater
+# (endpoint + public key) and takes the next CI build like any other install —
+# only the signed updater artifacts are skipped, since that needs the key.
+# A local build without the updater was the one that "hung" on /update.
+set -euo pipefail
+
+[ "$(uname)" = "Darwin" ] || { echo "install-app is macOS-only; use bin/tauri build elsewhere" >&2; exit 1; }
+
+ROOT="$(cd -P "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+APP="Gliph.app"
+BUNDLE="$ROOT/desktop/src-tauri/target/release/bundle/macos/$APP"
+
+# Best available codesigning identity, unless one was named for us.
+if [ -z "${APPLE_SIGNING_IDENTITY:-}" ]; then
+  ids=$(security find-identity -v -p codesigning 2>/dev/null | sed -n 's/^ *[0-9]*) *[0-9A-F]* "\(.*\)"$/\1/p')
+  APPLE_SIGNING_IDENTITY=$(printf '%s\n' "$ids" | grep -m1 '^Developer ID Application:' \
+    || printf '%s\n' "$ids" | grep -m1 '^Apple Development:' \
+    || echo '-')
+  export APPLE_SIGNING_IDENTITY
+fi
+echo "signing as: $APPLE_SIGNING_IDENTITY"
+
+# A running app must go before the bundle is replaced: `rm -rf` under a live
+# process leaves a half-app behind. Quit politely, then insist.
+if pkill -x Gliph 2>/dev/null; then
+  echo "quit running Gliph"
+  for _ in 1 2 3 4 5; do pgrep -x Gliph >/dev/null || break; sleep 1; done
+  pkill -9 -x Gliph 2>/dev/null || true
+fi
+
+# tauri.conf.json embeds web/dist, so the client has to be built first.
+export GLIPH_VERSION="$("$ROOT/bin/version" --long)"
+npm --prefix "$ROOT/web" run build
+
+# --bundles app: just the .app, no .dmg — nothing here is being handed to anyone.
+"$ROOT/bin/tauri" build --bundles app -c src-tauri/tauri.release.conf.json \
+  --config "{\"version\":\"$("$ROOT/bin/version")\",\"bundle\":{\"createUpdaterArtifacts\":false}}"
+
+[ -d "$BUNDLE" ] || { echo "no bundle at $BUNDLE" >&2; exit 1; }
+rm -rf "/Applications/$APP"
+cp -R "$BUNDLE" "/Applications/$APP"
+echo "installed /Applications/$APP"

@@ -1,0 +1,100 @@
+# Pushleft (pushleft docs/robot-migration-plan.md, phase 3). CI runs
+# `pl up --production` on main after stamping GLIPH_VERSION below with
+# `bin/version --long` (the build context has no git history).
+#
+# State is PostgreSQL (data.postgres) and the files bucket (pl storage), not a
+# volume: a role with a volume is stopped before its replacement starts, so
+# every deploy was a few seconds of 503s. Moved 2026-11-17 (the `data` volume's
+# gliph.db was imported at boot); docs/deploy.md.
+# TURN: the turn role below, on pl-app-2's main address 148.251.246.134 (turn.gliph.sh).
+version: 1
+project: gliph
+build:
+  args:
+    GLIPH_SERVER: https://gliph.sh
+    GLIPH_VERSION: dev
+    APK_UPGRADE_AT: local
+production:
+  regions: [fsn1]
+  health: /healthz
+roles:
+  web:
+    kind: web
+    port: 8787
+    health: /healthz
+    # Shell form so the secrets stay out of the manifest: SES_KEY_ID,
+    # SES_SECRET and TURN_SECRET are env secrets; the APNs key is a file.
+    # DATABASE_URL comes from data.postgres; S3_* and AWS_* from the files
+    # bucket (`pl storage bucket create files --production --set-secret`):
+    # uploads, voice notes and the desktop releases under downloads/desktop/.
+    # -trusted-proxy: Pushleft's router reaches the role from the environment
+    # network (10.128.0.0/9, only this project's containers), so its
+    # X-Forwarded-For is the address login limits count.
+    # -plaintext: Pushleft's edge terminates TLS and forwards plain HTTP to
+    # the container; the server refuses to listen in plaintext without it.
+    # GLIPH_LANDING: the front page at / for a visitor with no session, and
+    # /install.sh for self-hosters (server/landing.go).
+    command: >-
+      exec env GLIPH_LANDING=1 gliph -addr :8787 -plaintext -web /srv/web -name gliph.sh
+      -trusted-proxy 10.128.0.0/9
+      -downloads s3:downloads/desktop
+      -apns-key /secrets/apns.p8 -apns-key-id 9HMKWDYFKP -apns-team-id KF53B4S5HD
+      -ses-key-id "$SES_KEY_ID" -ses-secret "$SES_SECRET" -ses-region eu-west-1
+      -mail-from noreply@gliph.sh
+      -stun stun:turn.gliph.sh:3478
+      -turn "turn:turn.gliph.sh:3478?transport=udp,turn:turn.gliph.sh:3478?transport=tcp"
+      -turn-secret "$TURN_SECRET"
+      -substrate-callback https://substrate.gliph.sh/auth/gliph/callback
+    secrets:
+      - { name: SES_KEY_ID, as: env }
+      - { name: SES_SECRET, as: env }
+      - { name: TURN_SECRET, as: env }
+      - { name: APNS_KEY, path: /secrets/apns.p8 }
+      - { name: S3_ENDPOINT, as: env }
+      - { name: S3_BUCKET, as: env }
+      - { name: AWS_REGION, as: env }
+      - { name: AWS_ACCESS_KEY_ID, as: env }
+      - { name: AWS_SECRET_ACCESS_KEY, as: env }
+    databases: [gliph]
+    tmpfs: [{ path: /tmp, size: 64MiB }]
+    resources: { cpu: 0.5, memory: 1GiB }
+    route:
+      domains: [gliph.sh, www.gliph.sh]
+      # Desktop installers are large downloads; uploads are small.
+      timeout: 300
+      # The edge refuses TLS 1.2 for these hostnames (spec: all transport TLS 1.3).
+      min_tls: "1.3"
+  # TURN relay on the main address of gliph's node, pl-app-2 (148.251.246.134):
+  # gliph's environment is sealed to pl-app-2, so an extra address on another
+  # node cannot hold it. Robot firewall there: UDP 3478 and UDP 32768-65535
+  # (the relay range); TCP 3478 is not open.
+  # Behind the port forward coturn maps a peer on its own public address to
+  # its container address (10.128.0.0/9), which the 10.0.0.0/8 denial would
+  # refuse: two callers both on this relay. --allowed-peer-ip lets exactly that
+  # address through; the rest of 10/8 stays denied. Same settings as Rancher's
+  # coturn; its relay range (41 ports) and quotas are unchanged.
+  # A worker, not private with `port:`: a port gets an HTTP health probe, which
+  # coturn cannot answer; the public ports still forward to 3478 (target_port).
+  turn:
+    kind: worker
+    command: >-
+      exec turnserver -n --no-cli --no-tls --no-dtls --fingerprint --realm=gliph.sh
+      --use-auth-secret --static-auth-secret="$TURN_SECRET"
+      --listening-port=3478 --min-port=49160 --max-port=49200
+      --external-ip=148.251.246.134 --pidfile=/tmp/turnserver.pid --log-file=stdout
+      --no-multicast-peers --user-quota=12 --total-quota=100
+      --denied-peer-ip=127.0.0.0-127.255.255.255 --denied-peer-ip=10.0.0.0-10.255.255.255
+      --denied-peer-ip=172.16.0.0-172.31.255.255 --denied-peer-ip=192.168.0.0-192.168.255.255
+      --denied-peer-ip=100.64.0.0-100.127.255.255 --denied-peer-ip=169.254.0.0-169.254.255.255
+      --allowed-peer-ip="$(hostname -i | cut -d' ' -f1)"
+    secrets: [{ name: TURN_SECRET, as: env }]
+    tmpfs: [{ path: /tmp, size: 16MiB }]
+    resources: { cpu: 0.25, memory: 256MiB }
+data:
+  postgres:
+    plan: dev
+    databases: [{ name: gliph }]
+network:
+  public_ports:
+    - { port: 3478, protocol: udp, target_role: turn, target_port: 3478 }
+    - { port: 49160, port_end: 49200, protocol: udp, target_role: turn }

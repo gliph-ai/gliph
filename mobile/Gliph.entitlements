@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- An @-mention is delivered as a time-sensitive notification (Store.notify);
+	     without this key iOS quietly downgrades it to an ordinary one. -->
+	<key>com.apple.developer.usernotifications.time-sensitive</key>
+	<true/>
+	<!-- The APNs token (Push.swift). Without this key registerForRemoteNotifications
+	     fails quietly and the server never learns the phone exists. Xcode swaps
+	     "development" for "production" in an App Store archive. -->
+	<key>aps-environment</key>
+	<string>development</string>
+	<!-- Wi-Fi Aware (Mesh.swift): publish and subscribe the nearby service.
+	     The App ID needs the Wi-Fi Aware capability in the developer portal,
+	     or the provisioning profile will not carry this key. -->
+	<key>com.apple.developer.wifi-aware</key>
+	<array>
+		<string>Publish</string>
+		<string>Subscribe</string>
+	</array>
+</dict>
+</plist>

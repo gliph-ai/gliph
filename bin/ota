@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Put the current working tree on the machines in this room: the Mac and the
+# phone. Nothing here touches prod — pushing to main is what deploys the server.
+#
+#   bin/ota            # desktop, then the iPhone
+#   bin/ota desktop    # only /Applications/Gliph.app
+#   bin/ota ios        # only the paired iPhone
+#
+# The desktop shell embeds web/dist at build time, so that step builds the web
+# client itself; the iPhone runs its own SwiftUI client and builds from
+# mobile/. Both are pinned to prod because neither has a page origin to fall
+# back on.
+#
+# ponytail: no Android — nothing here is paired to one. Add the third line when
+# there is.
+set -euo pipefail
+
+ROOT="$(cd -P "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export GLIPH_SERVER="${GLIPH_SERVER:-https://gliph.sh}"
+what="${1:-all}"
+
+if [ "$what" = all ] || [ "$what" = desktop ]; then
+  "$ROOT/bin/install-app"      # quits a running Gliph, rebuilds, reinstalls
+  open -a Gliph
+fi
+
+if [ "$what" = all ] || [ "$what" = ios ]; then
+  "$ROOT/mobile/tools/deploy-device.sh"   # over Wi-Fi, installs and launches
+fi

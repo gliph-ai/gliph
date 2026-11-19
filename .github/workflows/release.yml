@@ -1,0 +1,164 @@
+# Every push to main: deploy the server to Pushleft (project gliph, .pl.yaml,
+# https://gliph.sh), then build the desktop app for Mac, Windows and Linux,
+# sign it for the updater, notarize the Mac build, and publish the installers
+# where every running copy's ★ update button looks
+# (https://gliph.sh/downloads/desktop/latest.json).
+#
+# Version: bin/version (MAJOR.MINOR from tauri.conf.json, PATCH = commit count),
+# which needs the whole history.
+#
+# Secrets (tools/release-secrets sets them all):
+#   PUSHLEFT_TOKEN                          empire member service token; the deploy job only
+#   TAURI_SIGNING_PRIVATE_KEY[_PASSWORD]    ~/.gliph-updater-key; losing it strands every install
+#   APPLE_CERTIFICATE[_PASSWORD]            Developer ID .p12, base64
+#   APPLE_SIGNING_IDENTITY                  "Developer ID Application: … (KF53B4S5HD)"
+#   APPLE_API_KEY / APPLE_API_ISSUER / APPLE_API_KEY_P8   App Store Connect key, for notarizing
+#   S3_ENDPOINT / S3_BUCKET / AWS_REGION / AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY
+#                                           the `files` bucket's own key; the publish job only
+name: release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# One release at a time; a push that lands mid-release waits, then ships on top.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  GLIPH_SERVER: https://gliph.sh
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: { name: prod, url: https://gliph.sh }
+    env:
+      PL_VERSION: 0.1.0-6e5dc8d
+      PL_SHA256: 5961f84d5bed6cacdbe4af41f36708a0ca0600e00ff4e0c6935c6ffadcfaa92a
+      PUSHLEFT_TOKEN: ${{ secrets.PUSHLEFT_TOKEN }}
+    steps:
+      - uses: actions/checkout@v5
+        with: { fetch-depth: 0 }
+      - run: |
+          sudo curl -fsSL -o /usr/local/bin/pl "https://releases.pushleft.dev/cli/$PL_VERSION/pl-linux-amd64"
+          echo "$PL_SHA256  /usr/local/bin/pl" | sha256sum -c -
+          sudo chmod +x /usr/local/bin/pl
+      # The build context has no .git, so the version is stamped into the
+      # manifest's build args here; APK_UPGRADE_AT keeps Alpine packages current.
+      - run: |
+          sed -i "s/^    GLIPH_VERSION: .*/    GLIPH_VERSION: \"$(bin/version --long)\"/; s/^    APK_UPGRADE_AT: .*/    APK_UPGRADE_AT: \"$GITHUB_RUN_ID\"/" .pl.yaml
+          grep -E 'GLIPH_VERSION|APK_UPGRADE_AT' .pl.yaml
+          pl up --production
+
+  # The web client (with the wasm core), built once and bundled by every OS build.
+  web:
+    runs-on: ubuntu-latest
+    outputs:
+      v: ${{ steps.v.outputs.v }}
+    steps:
+      - uses: actions/checkout@v5
+        with: { fetch-depth: 0 }
+      - id: v
+        run: echo "v=$(bin/version)" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-node@v4
+        with: { node-version: 24 }
+      - uses: dtolnay/rust-toolchain@stable
+        with: { targets: wasm32-unknown-unknown }
+      - uses: taiki-e/install-action@v2
+        with: { tool: wasm-pack }
+      - uses: Swatinem/rust-cache@v2
+        with: { workspaces: core }
+      - run: npm --prefix web ci --no-audit --no-fund
+      - run: GLIPH_VERSION="$(bin/version --long)" npm --prefix web run build
+      - uses: actions/upload-artifact@v4
+        with: { name: web-dist, path: web/dist }
+
+  desktop:
+    needs: [deploy, web]
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - { os: macos-26, bundles: "app,dmg" }
+          - { os: windows-latest, bundles: nsis }
+          - { os: ubuntu-22.04, bundles: deb }
+    runs-on: ${{ matrix.os }}
+    defaults: { run: { shell: bash } }
+    env:
+      V: ${{ needs.web.outputs.v }}
+      TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+      TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v4
+        with: { name: web-dist, path: web/dist }
+      - uses: actions/setup-node@v4
+        with: { node-version: 24 }
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with: { workspaces: desktop/src-tauri }
+      - if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libwebkit2gtk-4.1-dev build-essential file libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev patchelf
+      - run: npm --prefix desktop ci --no-audit --no-fund
+      # An unsigned or unnotarized build would still be offered to every install. Refuse instead.
+      - name: Secrets present
+        env:
+          A: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          B: ${{ secrets.APPLE_CERTIFICATE }}
+        run: '[ -n "$A" ] && { [ "$RUNNER_OS" != macOS ] || [ -n "$B" ]; } || { echo "::error::release secrets missing: run tools/release-secrets"; exit 1; }'
+      - if: runner.os == 'macOS'
+        run: echo "${{ secrets.APPLE_API_KEY_P8 }}" > "$RUNNER_TEMP/AuthKey.p8"
+      - name: Build
+        env:
+          APPLE_CERTIFICATE: ${{ runner.os == 'macOS' && secrets.APPLE_CERTIFICATE || '' }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ runner.os == 'macOS' && secrets.APPLE_CERTIFICATE_PASSWORD || '' }}
+          APPLE_SIGNING_IDENTITY: ${{ runner.os == 'macOS' && secrets.APPLE_SIGNING_IDENTITY || '' }}
+          APPLE_API_KEY: ${{ runner.os == 'macOS' && secrets.APPLE_API_KEY || '' }}
+          APPLE_API_ISSUER: ${{ runner.os == 'macOS' && secrets.APPLE_API_ISSUER || '' }}
+          APPLE_API_KEY_PATH: ${{ runner.temp }}/AuthKey.p8
+          NO_STRIP: "true"
+        run: |
+          # Linux: the .deb is signed for the updater below, not by Tauri.
+          extra='{}'; [ "$RUNNER_OS" = Linux ] && extra='{"bundle":{"createUpdaterArtifacts":false}}'
+          cd desktop && node_modules/.bin/tauri build -c src-tauri/tauri.release.conf.json \
+            --config "{\"version\":\"$V\"}" --config "$extra" --bundles ${{ matrix.bundles }}
+      - name: Collect
+        run: |
+          B=desktop/src-tauri/target/release/bundle; mkdir out
+          case "$RUNNER_OS" in
+            macOS) cp $B/macos/*.app.tar.gz{,.sig} $B/dmg/*.dmg out/ ;;
+            Windows) cp $B/nsis/*-setup.exe{,.sig} out/ ;;
+            Linux) cp $B/deb/*.deb out/ && for f in out/*.deb; do (cd desktop && node_modules/.bin/tauri signer sign "../$f" >/dev/null); done ;;
+          esac
+          ls -la out
+      - uses: actions/upload-artifact@v4
+        with: { name: "desktop-${{ runner.os }}", path: out }
+
+  publish:
+    needs: [web, desktop]
+    runs-on: ubuntu-latest
+    env:
+      V: ${{ needs.web.outputs.v }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
+      S3_BUCKET: ${{ secrets.S3_BUCKET }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v4
+        with: { pattern: desktop-*, path: out, merge-multiple: true }
+      - uses: actions/setup-node@v4
+        with: { node-version: 24 }
+      - run: node desktop/scripts/gen-manifest.mjs --artifacts out --version "$V" --base-url "$GLIPH_SERVER/downloads/desktop/$V" --mac-arch aarch64
+      # The version's files first, latest.json last: a client polling mid-upload
+      # still sees the previous release, never a manifest naming a missing file.
+      - run: |
+          aws configure set default.s3.addressing_style path
+          aws s3 cp --recursive out "s3://$S3_BUCKET/downloads/desktop/$V/" --endpoint-url "$S3_ENDPOINT"
+          aws s3 cp out/latest.json "s3://$S3_BUCKET/downloads/desktop/latest.json" --endpoint-url "$S3_ENDPOINT" --content-type application/json
+          curl -fsS "$GLIPH_SERVER/downloads/desktop/latest.json" | head -c 300

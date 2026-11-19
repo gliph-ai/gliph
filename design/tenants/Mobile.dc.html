@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=JetBrains+Mono:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&display=swap">
+  <style>
+    body { margin: 0; font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .row { display: flex; align-items: center; gap: 11px; padding: 12px 14px; border-bottom: 1px solid #e0dac6; }
+    .nm { font-size: 13.5px; color: #23262e; font-weight: 700; }
+    .pre { font-size: 11px; font-weight: 500; color: #858270; margin-top: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .boxtitle { padding: 5px 14px 6px; font-family: 'Abril Fatface', Georgia, serif; font-weight: 400; font-size: 12.5px; letter-spacing: 0.03em; color: #f5f1e8; background: #161c32; }
+    .tmono { width: 38px; height: 38px; flex: 0 0 38px; display: flex; align-items: center; justify-content: center; position: relative;
+             font-family: 'Abril Fatface', Georgia, serif; font-size: 14px; color: #f5f1e8; line-height: 1; }
+    .trow { display: flex; align-items: center; gap: 12px; padding: 11px 16px; border-bottom: 1px solid #e0dac6; }
+  </style>
+</helmet>
+
+<div style="width: 390px; height: 844px; display: flex; flex-direction: column; background: #f5f1e8; color: #23262e; overflow: hidden; position: relative;">
+
+  <!-- header: you @ server [unread], then the other servers as avatars -->
+  <div style="padding: 54px 14px 11px; background: #e9e3d2; border-bottom: 1px solid #c2bba6;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div style="width: 32px; height: 32px; flex: 0 0 32px; background: #2e43cd; color: #f5f1e8; display: flex; align-items: center; justify-content: center; font-family: 'Abril Fatface', Georgia, serif; font-size: 12.5px;">AC</div>
+      <div style="flex: 1; min-width: 0;">
+        <div style="display: flex; align-items: center; gap: 5px;">
+          <span style="font-size: 13.5px; font-weight: 800; white-space: nowrap;">waseem <span style="color: #858270; font-weight: 600;">@</span> acme</span>
+          <span style="font-size: 12px; font-weight: 800; color: #d94f75;">[4]</span>
+          <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="#161c32" stroke-width="2"><path d="M1.5 3.5L5 7l3.5-3.5"></path></svg>
+        </div>
+        <div style="font-size: 10px; font-weight: 600; color: #858270; margin-top: 3px;">acme.gliph.chat · +e2e</div>
+      </div>
+
+      <!-- tap an avatar to switch; the rest live in the sheet -->
+      <div style="display: flex; align-items: center; gap: 7px;">
+        <div style="display: flex; align-items: center; gap: 3px;">
+          <div style="width: 20px; height: 20px; background: #c76a3e; display: flex; align-items: center; justify-content: center;">
+            <svg width="13" height="13" viewBox="0 0 20 20" fill="none" stroke="#f5f1e8" stroke-width="2.2"><circle cx="10" cy="10" r="6"></circle><path d="M10 4v12"></path></svg>
+          </div>
+          <span style="font-size: 10px; font-weight: 800; color: #d94f75;">[7]</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 3px;">
+          <div style="width: 20px; height: 20px; background: #b08a1e; display: flex; align-items: center; justify-content: center;">
+            <svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="#f5f1e8" stroke-width="2.2"><path d="M4 15L10 5l6 10z"></path></svg>
+          </div>
+          <span style="font-size: 10px; font-weight: 800; color: #d94f75;">[2]</span>
+        </div>
+        <div style="width: 20px; height: 20px; border: 1px solid #a29c88; color: #858270; display: flex; align-items: center; justify-content: center; font-size: 9.5px; font-weight: 800;">+2</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- the list behind the sheet -->
+  <div style="flex: 1; overflow: hidden; padding-top: 10px; opacity: 0.35;">
+    <div class="boxtitle">Channels</div>
+    <div style="background: #faf6ec;">
+      <div class="row" style="background: #23262e;">
+        <span style="color: #9aa3c4; font-size: 15px; font-weight: 800;">#</span>
+        <div style="flex: 1; min-width: 0;">
+          <div class="nm" style="color: #f5f1e8; font-weight: 800;">dev</div>
+          <div class="pre" style="color: #9aa3c4;">&lt;dana&gt; final assets for the launch page…</div>
+        </div>
+        <span style="font-size: 10px; background: #d94f75; color: #f5f1e8; padding: 1px 8px; font-weight: 800;">3</span>
+      </div>
+      <div class="row">
+        <span style="color: #a29c88; font-size: 15px; font-weight: 800;">#</span>
+        <div style="flex: 1; min-width: 0;"><div class="nm">general</div><div class="pre">&lt;mika&gt; lunch orders in the thread</div></div>
+      </div>
+      <div class="row">
+        <span style="color: #a29c88; font-size: 15px; font-weight: 800;">#</span>
+        <div style="flex: 1; min-width: 0;"><div class="nm">design</div><div class="pre">*** saar uploaded gloam-palette-v2.png</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- bottom nav, behind -->
+  <div style="display: flex; border-top: 1px solid #c2bba6; background: #e9e3d2; padding: 12px 0 26px; opacity: 0.35;">
+    <div style="flex: 1; text-align: center; color: #23262e; font-size: 11px; font-weight: 800;">chats</div>
+    <div style="flex: 1; text-align: center; color: #858270; font-size: 11px; font-weight: 600;">people</div>
+    <div style="flex: 1; text-align: center; color: #858270; font-size: 11px; font-weight: 600;">files</div>
+    <div style="flex: 1; text-align: center; color: #858270; font-size: 11px; font-weight: 600;">you</div>
+  </div>
+
+  <!-- scrim -->
+  <div style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; background: rgba(22, 28, 50, 0.45);"></div>
+
+  <!-- ══ TEAM SHEET ══════════════════════════════════ -->
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; background: #f5f1e8; border-top: 2px solid #161c32; box-shadow: 0 -3px 0 rgba(74, 62, 38, 0.16);">
+
+    <div style="display: flex; align-items: center; padding: 12px 16px 10px; background: #161c32;">
+      <span style="font-family: 'Abril Fatface', Georgia, serif; font-size: 14px; color: #f5f1e8; letter-spacing: 0.03em;">Servers</span>
+      <span style="margin-left: auto; font-size: 11px; font-weight: 700; color: #9aa3c4;">waseem@sadiq.nl</span>
+    </div>
+
+    <div style="background: #faf6ec;">
+
+      <!-- current -->
+      <div class="trow" style="background: #ece7d8;">
+        <div class="tmono" style="background: #2e43cd;">AC</div>
+        <div style="flex: 1; min-width: 0;">
+          <div class="nm">acme</div>
+          <div class="pre">acme.gliph.chat · &lt;waseem&gt;</div>
+        </div>
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="#3f8e3a" stroke-width="2.4"><path d="M2.5 8.5l4 4 7-8"></path></svg>
+      </div>
+
+      <div class="trow">
+        <div class="tmono" style="background: #c76a3e;"><svg width="21" height="21" viewBox="0 0 20 20" fill="none" stroke="#f5f1e8" stroke-width="2"><circle cx="10" cy="10" r="6"></circle><path d="M10 4v12"></path></svg></div>
+        <div style="flex: 1; min-width: 0;">
+          <div class="nm">hooli</div>
+          <div class="pre">hooli.gliph.chat · &lt;wsm&gt;</div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 800; color: #d94f75;">[7]</span>
+      </div>
+
+      <div class="trow">
+        <div class="tmono" style="background: #3f8e3a;">IN</div>
+        <div style="flex: 1; min-width: 0;">
+          <div class="nm">initech</div>
+          <div class="pre">initech.gliph.chat · &lt;w.sadiq&gt;</div>
+        </div>
+        <svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3.5" fill="#a29c88"></circle></svg>
+      </div>
+
+      <!-- a self-hosted server sits in the same list, marked -->
+      <div class="trow">
+        <div class="tmono" style="background: #b08a1e;"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#f5f1e8" stroke-width="2"><path d="M4 15L10 5l6 10z"></path></svg>
+          <span style="position: absolute; right: -3px; bottom: -3px;">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="#f5f1e8" stroke="#b08a1e" stroke-width="1.6"><rect x="2.5" y="7" width="11" height="7"></rect><path d="M5 7V5a3 3 0 0 1 6 0v2" fill="none"></path></svg>
+          </span>
+        </div>
+        <div style="flex: 1; min-width: 0;">
+          <div class="nm">vandelay <span style="font-size: 9.5px; font-weight: 700; color: #8a6d15; background: #f0e8cf; padding: 1px 5px;">self-hosted</span></div>
+          <div class="pre">chat.vandelay.industries · &lt;waseem&gt;</div>
+        </div>
+        <span style="font-size: 11.5px; font-weight: 800; color: #d94f75;">[2]</span>
+      </div>
+
+      <div class="trow" style="border-bottom: none;">
+        <div class="tmono" style="background: #8a35c8; opacity: 0.5;">UM</div>
+        <div style="flex: 1; min-width: 0;">
+          <div class="nm" style="color: #858270;">umbrella</div>
+          <div class="pre">umbrella.gliph.chat · &lt;waseem&gt;</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- add -->
+    <div style="border-top: 1px solid #c2bba6; background: #ece7d8;">
+      <div style="display: flex; align-items: center; gap: 11px; padding: 13px 16px; font-size: 12.5px; font-weight: 800; color: #2941c8;">
+        <span style="width: 38px; text-align: center; font-size: 17px; font-weight: 500;">+</span>join with an invite
+      </div>
+      <div style="display: flex; align-items: center; gap: 11px; padding: 0 16px 13px; font-size: 12.5px; font-weight: 800; color: #2941c8;">
+        <span style="width: 38px; text-align: center; font-size: 17px; font-weight: 500;">+</span>connect a server by address
+      </div>
+    </div>
+
+    <div style="padding: 10px 16px 30px; background: #e9e3d2; border-top: 1px solid #c2bba6; display: flex; align-items: center;">
+      <span style="font-size: 11px; font-weight: 700; color: #858270;">manage account</span>
+      <span style="margin-left: auto; font-size: 11px; font-weight: 700; color: #a29c88;">sign out everywhere</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

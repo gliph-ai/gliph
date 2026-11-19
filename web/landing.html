@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!-- gliph.sh's front page for a visitor with no session (server/landing.go).
+         Static: no wire data reaches this page, so there is nothing to esc(). -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; img-src 'self' data:; style-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#1a2138">
+    <meta name="description" content="Gliph is team chat in channels, like IRC. You run the server. Every channel is encrypted end to end.">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <title>Gliph: team chat on your own server</title>
+    <link rel="stylesheet" href="/fonts/g/fonts.css">
+    <script type="module" src="/src/landing.ts"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="bar">
+      <a class="wordmark" href="/" aria-label="gliph home">gliph</a>
+      <nav aria-label="Page">
+        <a href="#install">install</a>
+        <a href="#apps">apps</a>
+      </nav>
+      <a class="signin" href="/signin">sign in</a>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <h1>Team chat on your own server.</h1>
+        <p class="lede">Gliph is chat in channels, like IRC. You run the server. Every channel is encrypted on your devices, so the server stores only ciphertext.</p>
+        <p class="ctas">
+          <a class="btn primary" href="#install">Install the server</a>
+          <a class="btn" href="/signin">Sign in</a>
+          <a class="btn" href="#apps">Get the apps</a>
+        </p>
+
+        <figure class="window" aria-label="A Gliph channel with the command list open">
+          <div class="topic"><b>#general</b> <span>[5]</span> <span>[+nt]</span> <span class="dim">welcome to gliph</span></div>
+          <ol class="log">
+            <li><time>[09:12]</time> <span class="join">*** mika has joined</span></li>
+            <li><time>[09:12]</time> <span class="n1">&lt;waseem&gt;</span> morning. the release build is green</li>
+            <li><time>[09:13]</time> <span class="n2">&lt;mika&gt;</span> ship it</li>
+            <li><time>[09:13]</time> <span class="agent">&lt;◆deploybot&gt;</span> <span class="tag">agent</span> shipping build 412 to production</li>
+            <li><time>[09:14]</time> <span class="act">* mika gets coffee</span></li>
+            <li><time>[09:14]</time> <span class="n1">&lt;waseem&gt;</span> <span class="at">@mika</span> the logs are in <span class="chan">#ops</span></li>
+          </ol>
+          <ul class="palette" aria-label="Commands">
+            <li class="on"><b>/join</b> <i>#channel</i> <span>join a channel</span></li>
+            <li><b>/topic</b> <i>text</i> <span>set the channel topic</span></li>
+            <li><b>/me</b> <i>action</i> <span>say what you do</span></li>
+            <li><b>/away</b> <i>reason</i> <span>show why you are away</span></li>
+            <li><b>/ignore</b> <i>nick</i> <span>mute one person, for you</span></li>
+            <li><b>/deploy</b> <i>env</i> <span>from deploybot</span></li>
+          </ul>
+          <div class="composer"><span class="caret">/</span></div>
+        </figure>
+      </section>
+
+      <section class="story" aria-label="Features">
+        <div class="row">
+          <div>
+            <h2>Own your history.</h2>
+            <p>Your history stays on your server and in the local copy on each device. Messages do not expire after 90 days. Export any channel as plain text at any time.</p>
+          </div>
+          <div>
+            <h2>Encrypted end to end.</h2>
+            <p>Gliph encrypts every channel with MLS, the IETF standard for group encryption (RFC 9420). The keys stay on your devices. The server operator sees channel names and ciphertext.</p>
+          </div>
+        </div>
+
+        <img class="shot" src="/landing/desktop.webp" width="1600" height="1000" alt="The Gliph desktop app in the creme theme: a channel log, the member list and the composer" loading="lazy" decoding="async">
+
+        <div class="row">
+          <div>
+            <h2>Every command behind /.</h2>
+            <p>Type / to see each command on the server and the arguments it takes. Plugins and agents add their own commands. Every connected app gets the new list at once.</p>
+          </div>
+          <div>
+            <h2>Agents as members.</h2>
+            <p>An agent joins a channel like a person, with its own keys and a ◆ before its nick. You see every agent in the member list.</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <h2>Quiet by default.</h2>
+            <p>Gliph alerts you for DMs, your nick and your highlight words. All other lines stay unread in the channel. Use /ignore to mute one person for you alone.</p>
+          </div>
+          <div>
+            <h2>Files up to 1 GB.</h2>
+            <p>Uploads expire after seven days, and an admin can change that. In a DM, files go directly from one device to the other.</p>
+          </div>
+        </div>
+
+        <figure class="pair">
+          <img class="shot" src="/landing/midnight.webp" width="1600" height="1000" alt="The same app in the midnight theme" loading="lazy" decoding="async">
+          <img class="phone" src="/landing/iphone.webp" width="600" height="1304" alt="Gliph on an iPhone, chatting with people nearby" loading="lazy" decoding="async">
+        </figure>
+
+        <div class="row">
+          <div>
+            <h2>Chat with no server.</h2>
+            <p>On the same Wi-Fi, the desktop app and the iPhone app connect directly. Chat and send files with the people near you when the internet is down.</p>
+          </div>
+          <div>
+            <h2>Two themes, one font.</h2>
+            <p>Creme for the day and midnight for the night. Every line is JetBrains Mono, so ASCII art and code stay aligned.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="install" class="install">
+        <h2>Run your own server.</h2>
+        <p>You need a Linux server and a domain name that points to it.</p>
+        <ol>
+          <li>
+            <p>Run this on the server, with your own domain:</p>
+            <div class="cmd">
+              <code id="oneliner">curl -fsSL https://gliph.sh/install.sh | sudo sh -s chat.example.com</code>
+              <button type="button" class="copy" data-copy="oneliner">Copy</button>
+            </div>
+          </li>
+          <li><p>Open https://chat.example.com and create your account. The first account is the admin.</p></li>
+          <li><p>Invite your team from the admin console.</p></li>
+        </ol>
+        <p class="note">Gliph is one program. It keeps all its data in one folder, /var/lib/gliph, and gets its own TLS certificate from Let's Encrypt.</p>
+      </section>
+
+      <section id="apps" class="apps">
+        <h2>Get the apps.</h2>
+        <p>Sign in to gliph.sh or to your own server from the same app.</p>
+        <ul>
+          <li><a class="app" href="/downloads/desktop/latest/mac"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg><b>macOS</b><span>Apple silicon</span></a></li>
+          <li><a class="app" href="/downloads/desktop/latest/windows"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg><b>Windows</b><span>64-bit installer</span></a></li>
+          <li><a class="app" href="/downloads/desktop/latest/linux"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v12H3zM8 20h8M12 16v4" fill="none" stroke="currentColor" stroke-width="2"/></svg><b>Linux</b><span>Debian and Ubuntu</span></a></li>
+          <li><a class="app" href="https://testflight.apple.com/join/CpecUDC1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg><b>iPhone</b><span>on TestFlight</span></a></li>
+        </ul>
+        <p>Or use Gliph in the browser: <a href="/signin">sign in</a>.</p>
+      </section>
+    </main>
+
+    <footer class="bar status">
+      <span>connected to gliph.sh</span>
+      <a href="/signin">sign in</a>
+      <a href="/downloads">downloads</a>
+      <span class="right">theme: creme</span>
+    </footer>
+  </body>
+</html>

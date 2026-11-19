@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# bin/run <process> — start one dev process, as the herdr-gliph panes run them.
+# Short on purpose: up-arrow + Enter in a pane reruns it.
+#   server | web | deploybot | tauri | applog
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+wait_port() { # port name
+  echo "waiting for $2 :$1..."
+  until nc -z localhost "$1" 2>/dev/null; do sleep 0.5; done
+  echo "$2 is up"
+}
+
+case "${1:-}" in
+  server) cd "$ROOT/server"; exec go run . -plaintext -addr :8787 -name gliph.test ;;
+  web)    cd "$ROOT/web"; exec npm run dev ;;
+  deploybot)
+    wait_port 8787 "gliph server"
+    if [ ! -f "$ROOT/.deploybot-token" ]; then
+      echo "no .deploybot-token; mint one: cd server && go run . -data ./data -plugin deploybot:deploybot:agent" >&2
+      exit 1
+    fi
+    cd "$ROOT/plugins"
+    GLIPH_URL=http://localhost:8787 GLIPH_TOKEN=$(cat "$ROOT/.deploybot-token") GLIPH_CHANNELS=general exec node deploybot.mjs ;;
+  # Always `npm run dev`, never npx or the bare CLI: npx resolves outside this project, and the bare
+  # CLI skips -c src-tauri/tauri.dev.conf.json (the dev identifier, data dir and Dock icon).
+  tauri)  wait_port 5184 "web"; cd "$ROOT/desktop"; exec npm run dev ;;
+  applog) exec tail -F ~/Library/Logs/chat.gliph.desktop.dev/*.log ;;
+  *) echo "usage: bin/run server|web|deploybot|tauri|applog" >&2; exit 2 ;;
+esac

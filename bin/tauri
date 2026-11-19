@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# The desktop Tauri CLI, runnable from the repo root: `bin/tauri dev`.
+#
+# Always the project-local binary, never `npx tauri` — npx resolves outside this
+# project and has launched inbox2's desktop app by mistake.
+set -euo pipefail
+ROOT="$(cd -P "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT/desktop"
+[ -x node_modules/.bin/tauri ] || npm install
+exec ./node_modules/.bin/tauri "$@"

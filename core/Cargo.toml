@@ -1,0 +1,61 @@
+[package]
+name = "gliph-core"
+version = "0.1.0"
+description = "Gliph client core: protocol, crypto, sync and offline state. One implementation, every client."
+edition = "2021"
+rust-version = "1.77.2"
+license = "MIT OR Apache-2.0"
+
+[lib]
+name = "gliph_core"
+# rlib for the desktop crate; staticlib/cdylib for the iOS XCFramework and for
+# wasm-bindgen. One manifest covers all three hosts.
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[features]
+default = []
+# The UniFFI surface for the native iOS app. Off by default so the wasm build
+# never pulls UniFFI, which does not compile to wasm32.
+ffi = ["dep:uniffi"]
+# The wasm-bindgen surface for the web client. Off by default so the iOS build
+# does not pull it.
+wasm = ["dep:wasm-bindgen", "dep:getrandom-wasm"]
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+base64 = "0.22"
+rand_core = { version = "0.6", features = ["getrandom"] }
+
+# Crypto. The wire is fixed by web/src/crypto.ts: P-256 ECDH, HKDF-SHA256 with
+# an empty salt, AES-256-GCM with a 12-byte IV and the tag appended. These are
+# the RustCrypto crates that spell exactly that.
+p256 = { version = "0.13", features = ["ecdh", "pkcs8"] }
+hkdf = "0.12"
+sha2 = "0.10"
+aes-gcm = "0.10"
+
+# User script hooks (F13): a sandboxed interpreter with no IO of its own and
+# an operation budget, so one engine serves wasm and iOS. No module loader, no
+# clock, no floats, maps or closures (each is wasm size a chat hook does not
+# need), and no runtime RNG (that would pull a second getrandom into wasm).
+rhai = { version = "1.27", default-features = false, features = ["std", "no_module", "no_custom_syntax", "no_time", "no_float", "no_closure", "no_object"] }
+
+uniffi = { version = "0.28", features = ["cli"], optional = true }
+wasm-bindgen = { version = "0.2", optional = true }
+# wasm has no OS entropy source of its own; this points getrandom at the
+# browser's crypto.getRandomValues. Named separately so only the wasm build
+# pulls the js feature.
+getrandom-wasm = { package = "getrandom", version = "0.2", features = ["js"], optional = true }
+qrcode = { version = "0.14", default-features = false }
+
+[build-dependencies]
+uniffi = { version = "0.28", features = ["build"], optional = true }
+
+[[bin]]
+name = "uniffi-bindgen"
+path = "src/bin/uniffi_bindgen.rs"
+required-features = ["ffi"]
+
+[dev-dependencies]
+serde_json = "1"

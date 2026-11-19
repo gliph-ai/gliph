@@ -1,0 +1,3 @@
+# Pushleft upload: the image builds from core/, web/ and server/ only;
+# desktop/ holds a symlink, which Pushleft refuses.
+desktop/

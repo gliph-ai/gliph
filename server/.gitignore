@@ -1,0 +1,7 @@
+data/
+
+# The compiled server. `go build -o gliph` makes the first; a bare `go build`
+# names its output after the DIRECTORY, which is how this got committed six
+# times before anyone noticed.
+gliph
+server

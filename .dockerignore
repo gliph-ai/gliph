@@ -1,0 +1,14 @@
+**/node_modules
+**/dist
+**/data
+**/target
+server/server
+deploy
+design
+desktop
+mobile
+docs
+.git
+*.db
+*.db-shm
+*.db-wal

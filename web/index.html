@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en" data-theme="creme">
+  <head>
+    <meta charset="utf-8">
+    <!-- The privacy backstop, not a formality. See web/src/cards.ts: gliph
+         renders other people's links, and a remote load is a tracking pixel
+         that tells its owner who read the channel and when. Media is fetched
+         on request and handed to the DOM as a blob:, so `img-src` can stay
+         this tight and a missed vector fails closed. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; img-src 'self' data: blob:; media-src 'self' blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src * blob: ws: wss:; frame-src https://www.youtube-nocookie.com https://embed.diagrams.net blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#1a2138">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <title>gliph</title>
+    <link rel="stylesheet" href="/fonts/g/fonts.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>Gliph</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Gliph</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<!-- gliph://approve/<code>: a new device's QR code, opened from the Camera. -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>chat.gliph.mobile</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>gliph</string>
+			</array>
+		</dict>
+	</array>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<!-- iPad multitasking needs all four: App Store validation refuses the
+	     upload otherwise (ITMS-90474). The iPhone keeps the three above. -->
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+
+	<!-- Without a launch storyboard iOS runs the app in a compatibility-scaled
+	     frame with black bars, whatever the deployment target says. -->
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+
+	<!-- The server a shipped build talks to. The app has no page origin to fall
+	     back on, so without this it opens on an empty field; the build scripts
+	     set GLIPH_SERVER. Triple-tap the logo on the sign-in screen to override
+	     it without a rebuild. -->
+	<key>GliphServer</key>
+	<string>$(GLIPH_SERVER)</string>
+
+	<!-- Nearby mesh (spec F9): Bonjour discovery on the local network. Without
+	     both of these iOS silently returns no browse results. -->
+	<!-- WebRTC (direct transfers, data channels only) links camera and
+	     microphone capture code, so App Store processing requires both strings
+	     (ITMS-90683) even though Gliph never captures. -->
+	<key>NSCameraUsageDescription</key>
+	<string>Gliph doesn't use your camera. The library it uses for direct transfers includes camera support, so iOS needs this text.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Gliph doesn't use your microphone. The library it uses for direct transfers includes microphone support, so iOS needs this text.</string>
+
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Gliph finds people nearby on this network so you can chat with no server and no internet.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_gliph._tcp</string>
+	</array>
+
+	<!-- Nearby mesh over Wi-Fi Aware (iOS 26+, Mesh.swift): the same service
+	     name, published and subscribed, so two paired phones find each other
+	     with no access point. The framework crashes the app on a name that is
+	     declared wrong, so this has to match SERVICE_TYPE exactly. -->
+	<key>WiFiAwareServices</key>
+	<dict>
+		<key>_gliph._tcp</key>
+		<dict>
+			<key>Publishable</key>
+			<dict/>
+			<key>Subscribable</key>
+			<dict/>
+		</dict>
+	</dict>
+
+	<!-- The push carries no content, so the app has to wake and go and look. -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
+
+	<!-- A file received over a nearby transfer lands in Documents. These two
+	     keys are what make that folder visible in the Files app, so a received
+	     file is one the user can actually reach. -->
+	<key>UIFileSharingEnabled</key>
+	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
+</dict>
+</plist>

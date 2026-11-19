@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Gliph dev workspace — the tmux window with server, web, deploybot, tauri dev
+# and Claude panes.
+#
+# The layout itself lives in ~/Development/tmux/bin/herdr-gliph (all repos here
+# keep their workspace launcher there, so it is reachable as `herdr-gliph` from
+# anywhere). This is just the in-repo entry point, so `bin/dev` works the same
+# way it does in inbox2.
+exec herdr-gliph "$@"

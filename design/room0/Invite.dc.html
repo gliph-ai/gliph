@@ -1,0 +1,245 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=JetBrains+Mono:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&display=swap">
+  <style>
+    body { margin: 0; font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace; }
+    a { color: #7d92f0; } a:hover { color: #a3b2f5; }
+    .msg { display: flex; gap: 9px; padding: 2px 16px; font-size: 13px; line-height: 1.6; font-weight: 500; color: #e2ddcd; }
+    .t { color: #6a7396; flex: 0 0 55px; font-weight: 500; }
+    .b { flex: 1; min-width: 0; }
+    .nick { font-weight: 800; }
+    .r0 { color: #39c6ff; font-weight: 700; }
+    .r0dim { color: #4f88a8; font-weight: 700; }
+    .muted { color: #6a7396; font-weight: 600; }
+    /* the room0 mark — gradient inside the glyphs, mIRC brackets kept */
+    .tag {
+      margin-right: 5px; font-weight: 800;
+      background: linear-gradient(100deg, #39c6ff 0%, #9d8ef5 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .btnjoin { padding: 3px 11px; font-family: inherit; font-size: 11.5px; font-weight: 800; color: #f0ece0; background: #e8517c; border: none; }
+    .lnkcancel { font-size: 11.5px; font-weight: 700; color: #6a7396; text-decoration: none; }
+    .lnkcancel:hover { color: #8d95b8; text-decoration: underline; }
+    .lbl { font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #f2c14e; }
+    .sub { font-size: 11.5px; font-weight: 500; line-height: 1.55; color: #8d95b8; }
+    .row { display: flex; gap: 20px; align-items: flex-start; }
+    .strip { flex: 1; min-width: 0; background: #1e2540; border: 1px solid #2e3654; padding: 7px 0; }
+    .side { flex: 0 0 210px; display: flex; flex-direction: column; gap: 4px; padding-top: 4px; }
+    .hair { height: 1px; background: linear-gradient(100deg, #39c6ff 0%, #9d8ef5 100%); }
+    .strip0 { display: flex; align-items: center; gap: 11px; padding: 8px 14px; background: #131a2f; }
+    .dots { display: flex; }
+    .dot { width: 15px; height: 15px; border-radius: 50%; border: 2px solid #131a2f; }
+    .mark { font-size: 12.5px; font-weight: 800; background: linear-gradient(100deg, #39c6ff 0%, #9d8ef5 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .btnback { padding: 3px 11px; font-family: inherit; font-size: 11.5px; font-weight: 700; color: #8d95b8; background: transparent; border: 1px solid #364060; }
+    .cap { padding: 5px 2px 0; font-size: 11px; font-weight: 500; color: #6a7396; }
+  </style>
+</helmet>
+
+<div style="width: 980px; height: 1600px; background: #141a2c; color: #e2ddcd; padding: 26px 28px 28px; display: flex; flex-direction: column; gap: 20px; border: 1px solid #364060; overflow: hidden;">
+
+  <div style="display: flex; align-items: baseline; gap: 12px;">
+    <span style="font-family: 'Abril Fatface', Georgia, serif; font-size: 22px; color: #e8517c;">the invite</span>
+    <span class="sub">one line in the stream, every state it can be in. invite a person or the whole channel</span>
+  </div>
+
+  <!-- 1 — channel invite, received -->
+  <div class="row">
+    <div class="side"><span class="lbl">channel invite</span><span class="sub">what everyone in #dev sees when someone opens the room</span></div>
+    <div class="strip">
+      <div class="msg" style="align-items: center;">
+        <span class="t">[14:02]</span>
+        <span class="b" style="display: flex; align-items: center; gap: 12px;">
+          <span class="r0">*** waseem opened room0 · office · spawn beside them</span>
+          <span style="display: flex; align-items: center; gap: 12px; margin-left: auto; padding-right: 8px;">
+            <button type="button" class="btnjoin">join</button>
+            <a href="#" class="lnkcancel">cancel</a>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 — personal invite, received -->
+  <div class="row">
+    <div class="side"><span class="lbl">personal invite</span><span class="sub">/room0 invite dana lands in their DM, named and harder to ignore</span></div>
+    <div class="strip">
+      <div class="msg" style="align-items: center;">
+        <span class="t">[14:07]</span>
+        <span class="b" style="display: flex; align-items: center; gap: 12px;">
+          <span class="r0">*** waseem invited you to room0 · office (#dev)</span>
+          <span style="display: flex; align-items: center; gap: 12px; margin-left: auto; padding-right: 8px;">
+            <button type="button" class="btnjoin">join</button>
+            <a href="#" class="lnkcancel">cancel</a>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 — sender's view, pending -->
+  <div class="row">
+    <div class="side"><span class="lbl">sender · pending</span><span class="sub">the same line from the other end, until it is answered</span></div>
+    <div class="strip">
+      <div class="msg" style="align-items: center;">
+        <span class="t">[14:07]</span>
+        <span class="b" style="display: flex; align-items: center; gap: 12px;">
+          <span class="r0dim">*** you invited dana to room0 · waiting</span>
+          <span style="display: flex; align-items: center; gap: 12px; margin-left: auto; padding-right: 8px;">
+            <a href="#" class="lnkcancel">withdraw</a>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4 — answered -->
+  <div class="row">
+    <div class="side"><span class="lbl">answered</span><span class="sub">the buttons go, the line stays as history. an invite lives as long as someone is inside. when the room empties, join greys out</span></div>
+    <div class="strip">
+      <div class="msg"><span class="t">[14:08]</span><span class="b r0">*** dana joined room0 · spawned next to waseem</span></div>
+      <div class="msg"><span class="t">[14:09]</span><span class="b muted">*** mika passed on room0</span></div>
+      <div class="msg" style="align-items: center; opacity: 0.55;"><span class="t">[14:31]</span>
+        <span class="b" style="display: flex; align-items: center; gap: 12px;">
+          <span class="muted">*** room0 · office is empty</span>
+          <span style="display: flex; align-items: center; gap: 12px; margin-left: auto; padding-right: 8px;">
+            <button type="button" style="padding: 3px 11px; font-family: inherit; font-size: 11.5px; font-weight: 800; color: #6a7396; background: #2a3252; border: none;">join</button>
+          </span>
+        </span></div>
+    </div>
+  </div>
+
+  <!-- 5 — the live strip, pinned above the composer -->
+  <div class="row">
+    <div class="side"><span class="lbl">the live strip</span><span class="sub">one room0 line per session, pinned above the composer. it updates in place while people come and go</span></div>
+    <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px;">
+
+      <div>
+        <div class="hair"></div>
+        <div class="strip0">
+          <span class="dots"><span class="dot" style="background: #39c6ff;"></span><span class="dot" style="background: #e8517c; margin-left: -5px;"></span><span class="dot" style="background: #f2c14e; margin-left: -5px;"></span></span>
+          <span class="mark">room0</span>
+          <span style="font-size: 12.5px; font-weight: 600; color: #c9c4b2;">office · robin, mika, dana · 12m</span>
+          <span style="font-size: 11.5px; font-weight: 700; color: #5fc9c9;">voice 2</span>
+          <span style="margin-left: auto; display: flex; align-items: center; gap: 12px;"><button type="button" class="btnjoin">join</button><a href="#" class="lnkcancel">hide</a></span>
+        </div>
+        <div class="cap">live. you are in the channel, the room runs without you</div>
+      </div>
+
+      <div>
+        <div class="hair"></div>
+        <div class="strip0">
+          <span class="dots"><span class="dot" style="background: #39c6ff;"></span><span class="dot" style="background: #e8517c; margin-left: -5px;"></span></span>
+          <span class="mark">room0</span>
+          <span style="font-size: 12.5px; font-weight: 600; color: #c9c4b2;">office · you, robin · 3m</span>
+          <span style="margin-left: auto; display: flex; align-items: center; gap: 12px;"><button type="button" class="btnback">back to the room</button><a href="#" class="lnkcancel">leave</a></span>
+        </div>
+        <div class="cap">you are inside, reading the channel. join becomes the way back in</div>
+      </div>
+
+      <div>
+        <div class="hair"></div>
+        <div class="strip0">
+          <span class="dots"><span class="dot" style="background: #39c6ff;"></span><span class="dot" style="background: #e8517c; margin-left: -5px;"></span></span>
+          <span class="mark">room0</span>
+          <span style="font-size: 12.5px; font-weight: 600; color: #c9c4b2;">office · you, robin · 8m</span>
+          <span style="display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px; font-size: 11px; font-weight: 800; color: #8d95b8; border: 1px solid #364060;">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#8d95b8" stroke-width="2"><path d="M4 5h16v11H9l-5 4z"></path><path d="M4 20 20 4"></path></svg>
+            you · quiet
+          </span>
+          <span style="margin-left: auto; display: flex; align-items: center; gap: 12px;"><button type="button" class="btnback">back to the room</button><a href="#" class="lnkcancel">quiet off</a></span>
+        </div>
+        <div class="cap">/room0 quiet stops your lines reaching #dev. the flag sits here, with no line in the stream</div>
+      </div>
+
+      <div>
+        <div class="hair" style="opacity: 0.35;"></div>
+        <div class="strip0" style="opacity: 0.6;">
+          <span class="mark" style="opacity: 0.7;">room0</span>
+          <span style="font-size: 12.5px; font-weight: 600; color: #6a7396;">office · empty · closed 14:52</span>
+          <span style="margin-left: auto; display: flex; align-items: center; gap: 12px;"><button type="button" class="btnjoin">open it</button></span>
+        </div>
+        <div class="cap">empty. the strip fades a beat after the last person leaves</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 — what still gets a line of its own -->
+  <div class="row">
+    <div class="side"><span class="lbl">still a line</span><span class="sub">voice and the channel's own joins keep their own lines</span></div>
+    <div class="strip">
+      <div class="msg"><span class="t">[14:06]</span><span class="b" style="color: #5fc9c9; font-weight: 700;">*** voice open in room0 · robin, mika · <a href="#" style="color: #5fc9c9; font-weight: 800;">listen in</a></span></div>
+      <div class="msg"><span class="t">[14:22]</span><span class="b" style="color: #93c99a; font-weight: 700;">*** mika (~mika@gliph) has joined #dev</span></div>
+    </div>
+  </div>
+
+  <!-- 7 — the composer side -->
+  <div class="row">
+    <div class="side"><span class="lbl">how you send one</span><span class="sub">one command does it. the rail's invite button types it for you</span></div>
+    <div class="strip" style="padding: 0;">
+      <div style="padding: 10px 16px; background: #141a2c; font-size: 13px; font-weight: 600; color: #e2ddcd;">/room0 invite <span style="color: #e8517c;">dana</span><span style="color: #6a7396;"> · #dev · lounge</span><span style="border-left: 2px solid #e8517c; margin-left: 2px;"></span></div>
+      <div style="border-top: 1px solid #2e3654; padding: 7px 16px; font-size: 11.5px; font-weight: 600; color: #8d95b8; display: flex; flex-direction: column; gap: 3px;">
+        <span><span style="color: #f0ece0; font-weight: 800;">/room0 invite &lt;nick&gt;</span> · a named invite, in their DM</span>
+        <span><span style="color: #f0ece0; font-weight: 800;">/room0 invite #chan</span> · one line for the whole channel</span>
+        <span><span style="color: #f0ece0; font-weight: 800;">/room0 invite</span> · this channel, where you are standing</span>
+        <span><span style="color: #f0ece0; font-weight: 800;">/room0 quiet</span> · your lines stop reaching the channel, kept in history and found by search</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7b — the notification window -->
+  <div class="row">
+    <div class="side"><span class="lbl">when you are elsewhere</span><span class="sub">an invite pings like a mention, named or channel-wide, with join in the notification</span></div>
+    <div style="flex: 1; min-width: 0; display: flex; gap: 14px; align-items: flex-start;">
+      <div style="flex: 0 0 320px; background: #171d33; box-shadow: 0 8px 22px rgb(0 0 0 / 0.22); padding: 9px 11px 11px; display: flex; flex-direction: column; gap: 4px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 10px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #39c6ff;">waseem · direct</span>
+          <span style="flex: 1; align-self: center; height: 2px; background: #232b4a;"><span style="display: block; height: 2px; width: 78%; background: linear-gradient(100deg, #39c6ff 0%, #9d8ef5 100%);"></span></span>
+          <span style="font-size: 10px; color: #6a7396;">14:07</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 7px; font-size: 12px; line-height: 1.5; color: #c9c4b2;">
+          <span style="color: #6a7396;">[14:07]</span>
+          <span style="flex: 1; min-width: 0;">invited you to room0 · office</span>
+          <button type="button" class="btnjoin" style="padding: 2px 9px; font-size: 11px;">join</button>
+        </div>
+      </div>
+      <div style="flex: 0 0 320px; background: #171d33; box-shadow: 0 8px 22px rgb(0 0 0 / 0.22); padding: 9px 11px 11px; display: flex; flex-direction: column; gap: 4px;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 10px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #7d92f0;">#dev</span>
+          <span style="flex: 1; align-self: center; height: 2px; background: #232b4a;"><span style="display: block; height: 2px; width: 52%; background: linear-gradient(100deg, #39c6ff 0%, #9d8ef5 100%);"></span></span>
+          <span style="font-size: 10px; color: #6a7396;">14:02</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 7px; font-size: 12px; line-height: 1.5; color: #c9c4b2;">
+          <span style="color: #6a7396;">[14:02]</span>
+          <span style="flex: 1; min-width: 0;">robin opened room0 · office</span>
+          <button type="button" class="btnjoin" style="padding: 2px 9px; font-size: 11px;">join</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8 — phone -->
+  <div class="row">
+    <div class="side"><span class="lbl">on the phone</span><span class="sub">room0 is web + desktop. the push opens #dev with the strip, and the line says where to go</span></div>
+    <div class="strip">
+      <div class="msg" style="align-items: center;">
+        <span class="t">[14:07]</span>
+        <span class="b" style="display: flex; align-items: center; gap: 12px;">
+          <span class="r0dim">*** waseem invited you to room0 · office</span>
+          <span style="display: flex; align-items: center; gap: 12px; margin-left: auto; padding-right: 8px;">
+            <a href="#" class="lnkcancel">open on desktop</a>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>
