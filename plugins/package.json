@@ -4,6 +4,7 @@
   "type": "module",
   "version": "0.1.0",
   "license": "MIT OR Apache-2.0",
+  "author": "Kunba Labs B.V.",
   "description": "Gliph plugin SDK and example bots/agents",
   "scripts": {
     "deploybot": "node deploybot.mjs",

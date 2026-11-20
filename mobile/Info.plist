@@ -18,6 +18,8 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright (c) 2026 Kunba Labs B.V.</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<!-- gliph://approve/<code>: a new device's QR code, opened from the Camera. -->

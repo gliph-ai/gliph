@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "license": "MIT OR Apache-2.0",
+  "author": "Kunba Labs B.V.",
   "type": "module",
   "scripts": {
     "core": "wasm-pack build ../core --release --target web --out-dir ../web/src/core --out-name gliph_core -- --features wasm",

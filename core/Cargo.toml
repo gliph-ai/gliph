@@ -5,6 +5,7 @@ description = "Gliph client core: protocol, crypto, sync and offline state. One 
 edition = "2021"
 rust-version = "1.77.2"
 license = "MIT OR Apache-2.0"
+authors = ["Kunba Labs B.V."]
 
 [lib]
 name = "gliph_core"

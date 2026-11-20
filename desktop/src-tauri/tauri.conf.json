@@ -32,7 +32,7 @@
   },
   "bundle": {
     "active": true,
-    "copyright": "Copyright (c) 2026 The Gliph authors",
+    "copyright": "Copyright (c) 2026 Kunba Labs B.V.",
     "license": "MIT OR Apache-2.0",
     "targets": "all",
     "icon": [

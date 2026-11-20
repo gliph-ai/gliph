@@ -5,6 +5,7 @@ description = "Gliph desktop client"
 edition = "2021"
 rust-version = "1.77.2"
 license = "MIT OR Apache-2.0"
+authors = ["Kunba Labs B.V."]
 # `tauri dev` runs the binary straight out of target/ with no .app around it, so
 # macOS has no Info.plist to read and falls back to the executable's FILENAME
 # for the menu bar and the app switcher. Naming the binary Gliph is what makes
